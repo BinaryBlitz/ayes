@@ -1,0 +1,32 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id             :integer          not null, primary key
+#  api_token      :string
+#  gender         :string
+#  birthdate      :date
+#  city           :string
+#  occupation     :string
+#  income         :string
+#  education      :string
+#  relationship   :string
+#  preferred_time :integer
+#  country        :string
+#  region         :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
+
+foo:
+  api_token: <%= SecureRandom.hex %>
+  # gender: male
+  # birthdate: 1970-01-01
+  # city: Moscow
+  # occupation:
+  # income:
+  # education:
+  # relationship:
+  # preferred_time:
+  # country: RU
+  # region: MOW
