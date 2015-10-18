@@ -22,6 +22,8 @@
 class User < ActiveRecord::Base
   has_secure_token :api_token
 
+  has_many :answers, dependent: :destroy
+
   validates :preferred_time, inclusion: { in: 0..23 }, allow_blank: true
 
   extend Enumerize
