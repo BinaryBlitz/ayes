@@ -10,6 +10,8 @@
 #
 
 class Question < ActiveRecord::Base
+  has_many :answers, dependent: :destroy
+
   validates :epigraph, presence: true
   validates :content, presence: true
 end
