@@ -37,9 +37,9 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user)
           .permit(
-            :api_token, :gender, :birthdate,
-            :city, :occupation, :income, :education,
-            :relationship, :preferred_time, :country, :region
+            :gender, :birthdate, :occupation,
+            :income, :education, :relationship,
+            :city, :country, :region, :preferred_time,
           )
   end
 end

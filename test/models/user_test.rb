@@ -14,6 +14,7 @@
 #  preferred_time :integer
 #  country        :string
 #  region         :string
+#  settlement     :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #

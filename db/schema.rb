@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20151016080740) do
     t.integer  "preferred_time"
     t.string   "country"
     t.string   "region"
+    t.string   "settlement"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end

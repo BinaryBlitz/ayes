@@ -12,6 +12,7 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :preferred_time
       t.string :country
       t.string :region
+      t.string :settlement
 
       t.timestamps null: false
     end
