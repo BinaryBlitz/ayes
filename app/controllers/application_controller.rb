@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   def restrict_access
     unless restrict_access_by_params
-      render json: { message: 'Invalid API Token' }, status: 401
+      render json: { message: 'Invalid API Token' }, status: :unauthorized
       return
     end
   end

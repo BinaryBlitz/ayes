@@ -4,4 +4,14 @@ class QuestionsTest < ActionDispatch::IntegrationTest
   setup do
     @question = questions(:question)
   end
+
+  test 'list' do
+    get '/questions.json', api_token: api_token
+    assert_response :success
+  end
+
+  test 'show' do
+    get "/questions/#{@question.id}.json", api_token: api_token
+    assert_response :success
+  end
 end
