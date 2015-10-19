@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.4'
 gem 'rails-api'
 gem 'pg'
+gem 'unicorn'
 
 gem 'enumerize'
 gem 'countries'
@@ -26,4 +27,7 @@ group :development do
   gem 'annotate'
   gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'capistrano'
+  gem 'capistrano-ext'
+  gem 'rvm-capistrano', require: false
 end
