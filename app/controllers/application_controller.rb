@@ -18,4 +18,14 @@ class ApplicationController < ActionController::Base
 
     @current_user = User.find_by_api_token(params[:api_token])
   end
+
+  # Devise configuration
+  skip_before_action :restrict_access, if: :devise_controller?
+  layout :set_layout
+
+  protected
+
+  def set_layout
+    devise_controller? ? 'admin' : false
+  end
 end

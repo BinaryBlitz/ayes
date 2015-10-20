@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.4'
 gem 'pg'
-# gem 'jbuilder'
+gem 'jbuilder'
 gem 'unicorn'
 
 gem 'enumerize'
@@ -10,6 +10,10 @@ gem 'countries'
 
 # Auth
 gem 'has_secure_token'
+gem 'devise'
+gem 'devise-i18n'
+gem 'devise-i18n-views'
+gem 'devise-bootstrap-views'
 
 # Front end
 gem 'sass-rails', '~> 5.0'

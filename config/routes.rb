@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'admin/questions#index'
+  devise_for :admins, path: 'admin', skip: :registrations
 
   namespace :admin do
     resources :questions
