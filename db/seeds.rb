@@ -1,6 +1,11 @@
 u = User.create!
 u.update!(api_token: 'foobar')
 
-q = Question.create!(epigraph: 'Lorem ipsum', content: 'Dolor sit amet')
+20.times do
+  Question.create!(
+    epigraph: FFaker::Lorem.sentence,
+    content: FFaker::Lorem.sentence
+  )
+end
 
-Admin.create!(email: 'foo@bar.com', password: 'qwerty123')
+Admin.create(email: 'foo@bar.com', password: 'qwerty123')

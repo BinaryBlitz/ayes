@@ -7,6 +7,7 @@ gem 'unicorn'
 
 gem 'enumerize'
 gem 'countries'
+gem 'rails-i18n'
 
 # Auth
 gem 'has_secure_token'
@@ -22,6 +23,8 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'bootstrap-sass'
+
+gem 'ffaker', group: [:development, :staging]
 
 group :development, :test do
   gem 'byebug'
