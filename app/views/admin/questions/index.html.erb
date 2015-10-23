@@ -1,13 +1,15 @@
-<h1>Listing Questions</h1>
+<h1>Вопросы</h1>
 
-<%= link_to 'New Question', new_admin_question_path, class: 'btn btn-default' %>
+<div class="form-group">
+  <%= link_to 'Новый вопрос', new_admin_question_path, class: 'btn btn-default' %>
+</div>
 
 <table class="table">
   <thead>
     <tr>
-      <th>Question</th>
-      <th>Epigraph</th>
-      <th></th>
+      <th>Вопрос</th>
+      <th>Эпиграф</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -17,8 +19,10 @@
         <td><%= link_to question.content, [:admin, question] %></td>
         <td><%= question.epigraph %></td>
         <td>
-          <%= link_to 'Edit', edit_admin_question_path(question), class: 'btn btn-default' %>
-          <%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+          <%= link_to 'Изменить', edit_admin_question_path(question), class: 'btn btn-default' %>
+        </td>
+        <td>
+          <%= link_to 'Удалить', question, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-danger' %>
         </td>
       </tr>
     <% end %>
