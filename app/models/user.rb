@@ -31,4 +31,28 @@ class User < ActiveRecord::Base
   enumerize :gender, in: [:male, :female]
   enumerize :country, in: ISO3166::Data.codes
   enumerize :region, in: ISO3166::Country.new('RU').subdivisions.keys
+
+  def attributes_for_form
+    {
+      gender: gender, age: age, city: city,
+      occupation: occupation, income: income, education: education,
+      relationship: relationship, country: country, region: region, settlement: settlement
+    }
+  end
+
+  def profile_complete?
+    gender.present? && birthdate.present? && city.present? && occupation.present? &&
+      income.present? && education.present? && relationship.present? &&
+      country.present? && region.present? && settlement.present?
+  end
+
+  private
+
+  def age
+    return 0 unless birthdate
+
+    age = Time.zone.today.year - birthdate.year
+    age -= 1 if Time.zone.today < birthdate + age.years
+    age
+  end
 end
