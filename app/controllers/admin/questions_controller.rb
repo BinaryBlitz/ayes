@@ -2,7 +2,7 @@ class Admin::QuestionsController < Admin::AdminController
   before_action :set_question, only: [:show, :edit, :update, :destroy]
 
   def index
-    @questions = Question.all
+    @questions = Question.all.page(params[:page])
   end
 
   def show

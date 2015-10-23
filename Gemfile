@@ -8,6 +8,8 @@ gem 'unicorn'
 gem 'enumerize'
 gem 'countries'
 gem 'rails-i18n'
+gem 'kaminari'
+gem 'kaminari-i18n'
 
 # Auth
 gem 'has_secure_token'
