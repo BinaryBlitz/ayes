@@ -4,11 +4,6 @@ class AnswersController < ApplicationController
   def create
     @answer = current_user.answers.build(answer_params)
 
-    if current_user.profile_complete?
-      form = Form.find_or_create_by(current_user.attributes_for_form)
-      @answer.form = form
-    end
-
     if @answer.save
       render :show, status: :created
     else
