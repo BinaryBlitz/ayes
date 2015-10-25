@@ -22,7 +22,7 @@
           <%= link_to 'Изменить', edit_admin_question_path(question), class: 'btn btn-default' %>
         </td>
         <td>
-          <%= link_to 'Удалить', question, method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-danger' %>
+          <%= link_to 'Удалить', [:admin, question], method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-danger' %>
         </td>
       </tr>
     <% end %>
