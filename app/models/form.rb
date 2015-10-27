@@ -20,8 +20,8 @@
 class Form < ActiveRecord::Base
   has_many :answers, dependent: :destroy
 
-  validates :gender, presence: true
   validates :age, presence: true
+  validates :gender, presence: true
   validates :city, presence: true
   validates :occupation, presence: true
   validates :income, presence: true
@@ -31,9 +31,5 @@ class Form < ActiveRecord::Base
   validates :region, presence: true
   validates :settlement, presence: true
 
-  extend Enumerize
-
-  enumerize :gender, in: [:male, :female]
-  enumerize :country, in: ISO3166::Data.codes
-  enumerize :region, in: ISO3166::Country.new('RU').subdivisions.keys
+  include Questionable
 end
