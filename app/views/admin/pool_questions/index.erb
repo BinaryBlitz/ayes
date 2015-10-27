@@ -1,0 +1,30 @@
+<h1>Пул</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Вопрос</th>
+      <th>Эпиграф</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pool_questions.each do |pool_question| %>
+      <tr>
+        <td><%= link_to pool_question.question.content, [:admin, pool_question.question] %></td>
+        <td><%= pool_question.question.epigraph %></td>
+        <td>
+          <%= link_to '↑', up_admin_pool_question_path(pool_question), method: :patch, class: 'btn btn-default' %>
+          <%= link_to '↓', down_admin_pool_question_path(pool_question), method: :patch, class: 'btn btn-default' %>
+        </td>
+        <td>
+          <%= link_to 'Удалить из пула', [:admin, pool_question], method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @pool_questions %>
+
