@@ -1,5 +1,5 @@
 class Admin::QuestionsController < Admin::AdminController
-  before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_question, only: [:show, :edit, :update, :destroy, :enqueue]
 
   def index
     @questions = Question.all.page(params[:page])
@@ -19,7 +19,7 @@ class Admin::QuestionsController < Admin::AdminController
     @question = Question.new(question_params)
 
     if @question.save
-      redirect_to [:admin, @question], notice: 'Question was successfully created.'
+      redirect_to [:admin, @question], notice: 'Вопрос успешно создан.'
     else
       render :new
     end
@@ -27,7 +27,7 @@ class Admin::QuestionsController < Admin::AdminController
 
   def update
     if @question.update(question_params)
-      redirect_to [:admin, @question], notice: 'Question was successfully updated.'
+      redirect_to [:admin, @question], notice: 'Вопрос успешно обновлен.'
     else
       render :edit
     end
@@ -35,7 +35,21 @@ class Admin::QuestionsController < Admin::AdminController
 
   def destroy
     @question.destroy
-    redirect_to admin_questions_url, notice: 'Question was successfully destroyed.'
+    redirect_to admin_questions_url, notice: 'Вопрос успешно удален.'
+  end
+
+  def enqueue
+    Pool.instance.pool_questions.create(question: @question).save
+    redirect_to admin_questions_url, notice: 'Вопрос успешно добавлен в пул.'
+  end
+
+  def dequeue
+    Pool.instance.questions.destroy(@question)
+    redirect_to pool_admin_questions_url, notice: 'Вопрос успешно удален из пула.'
+  end
+
+  def pool
+    @questions = Pool.instance.ordered_questions.page(params[:page])
   end
 
   private

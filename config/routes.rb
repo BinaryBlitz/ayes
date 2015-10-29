@@ -4,6 +4,9 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :questions
+    resources :pool_questions do
+      patch 'up', 'down', on: :member
+    end
   end
 
   resources :questions, only: [:index, :show] do
