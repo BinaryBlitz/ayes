@@ -40,7 +40,7 @@ class UsersController < ApplicationController
           .permit(
             :gender, :birthdate, :occupation,
             :income, :education, :relationship,
-            :city, :country, :region, :preferred_time,
+            :city, :country, :region, :preferred_time, :device_token
           )
   end
 end

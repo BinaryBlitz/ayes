@@ -1,37 +1,29 @@
 class Notifier
   def initialize(user, message, options = {})
     @user = user
-    @device_tokens = user.device_tokens
+    @device_token = user.device_token
     @message = message
     @options = options
     push
   end
 
   def push
-    return if @message.blank?
+    return if @message.blank? && @device_token.blank?
 
     Rails.logger.debug "#{Time.zone.now} Notifying #{@user} with message: #{@message}"
-
-    android_tokens = @device_tokens.where(platform: 'android')
-    push_android_notifications(android_tokens)
-    ios_tokens = @device_tokens.where(platform: 'ios')
-    push_ios_notifications(ios_tokens)
+    push_ios_notification(@device_token)
   end
 
   private
 
-  def push_ios_notifications(tokens)
-    return if tokens.blank?
+  def push_ios_notification(token)
+    n = Rpush::Apns::Notification.new
+    n.app = Rpush::Apns::App.find_by_name('ios_app')
+    n.device_token = token
+    n.alert = @message
+    n.data = @options
+    n.save!
 
-    tokens.each do |token|
-      n = Rpush::Apns::Notification.new
-      n.app = Rpush::Apns::App.find_by_name('ios_app')
-      n.device_token = token.token
-      n.alert = @message
-      n.data = @options
-      n.save!
-
-      Rails.logger.debug "#{Time.zone.now} Apple notification: #{@message}, options: #{@options}"
-    end
+    Rails.logger.debug "#{Time.zone.now} iOS notification: #{@message}, options: #{@options}"
   end
 end

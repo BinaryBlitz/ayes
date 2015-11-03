@@ -153,6 +153,7 @@ ActiveRecord::Schema.define(version: 20151103224635) do
     t.string   "settlement"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.string   "device_token"
   end
 
   add_foreign_key "answers", "questions"
