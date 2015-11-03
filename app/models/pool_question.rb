@@ -15,7 +15,7 @@ class PoolQuestion < ActiveRecord::Base
   validates :question, presence: true
 
   # Call this method every day
-  def self.pop_last_question
+  def self.pop
     # Delete the last question
     PoolQuestion.next.try(:destroy)
 

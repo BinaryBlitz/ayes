@@ -14,9 +14,10 @@
 
 every 1.day do
   # Pop question from the queue
-  runner 'PoolQuestion.pop_last'
+  runner 'PoolQuestion.pop'
 end
 
 every 1.hour do
   # Push question if preferred time is set
+  runner 'PoolQuestion.push_with_preferred_time'
 end
