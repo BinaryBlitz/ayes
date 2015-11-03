@@ -14,6 +14,26 @@ class PoolQuestion < ActiveRecord::Base
 
   validates :question, presence: true
 
+  # Call this method every day
+  def self.pop_last_question
+    # Delete the last question
+    PoolQuestion.next.try(:destroy)
+
+    # Push the next one
+    next_question = PoolQuestion.next
+    return unless next_question
+
+    User.where(preferred_time: nil).each(&:push_question)
+  end
+
+  # Call this method every hour
+  def self.push_with_preferred_time
+    next_question = PoolQuestion.next
+    return unless next_question
+
+    User.where(preferred_time: Time.zone.now.hour).each(&:push_question)
+  end
+
   def increase_priority
     next_question = PoolQuestion.where('priority <= ?', priority)
                                 .where.not(id: id)

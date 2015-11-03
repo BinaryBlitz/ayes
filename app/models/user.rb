@@ -42,6 +42,10 @@ class User < ActiveRecord::Base
       country.present? && region.present? && settlement.present?
   end
 
+  def push_question
+    Notifier.new(self, 'Новый вопрос!', message: 'NEW_QUESTION')
+  end
+
   private
 
   def age
