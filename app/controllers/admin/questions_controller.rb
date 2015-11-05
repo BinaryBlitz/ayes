@@ -3,6 +3,7 @@ class Admin::QuestionsController < Admin::AdminController
 
   def index
     @questions = Question.all.page(params[:page])
+    @questions = @questions.tagged_with(params[:tag]) if params[:tag].present?
   end
 
   def show
@@ -50,6 +51,6 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def question_params
-    params.require(:question).permit(:epigraph, :content)
+    params.require(:question).permit(:epigraph, :content, :tag_list)
   end
 end

@@ -16,6 +16,8 @@ class Question < ActiveRecord::Base
   validates :epigraph, presence: true
   validates :content, presence: true
 
+  acts_as_taggable
+
   def push_now
     update(urgent: true)
     User.all.each(&:push_question)

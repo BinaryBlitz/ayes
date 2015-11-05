@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :pool_questions do
       patch 'up', 'down', on: :member
     end
+
+    resources :tags, except: [:show, :edit, :new]
   end
 
   resources :questions, only: [:index, :show] do
