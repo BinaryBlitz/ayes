@@ -9,7 +9,7 @@ require 'capistrano/ext/multistage'
 
 set :whenever_command, 'bundle exec whenever'
 set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
-require "whenever/capistrano"
+require 'whenever/capistrano'
 
 set :application, 'ayes'
 set :deploy_to, "/home/ayes/#{application}"
@@ -33,11 +33,18 @@ after 'deploy:update_code', roles: :app do
   run "rm -f #{current_release}/config/secrets.yml"
   run "ln -nfs #{deploy_to}/shared/config/secrets.yml #{current_release}/config/secrets.yml"
 
+  run "rm -f #{current_release}/config/pushcert.pem"
+  run "ln -nfs #{deploy_to}/shared/config/pushcert.pem #{current_release}/config/pushcert.pem"
+
   # Uploads
-  # run "rm -f #{current_release}/public/uploads"
-  # run "ln -nfs #{deploy_to}/shared/public/uploads #{current_release}/public/uploads"
+  run "rm -f #{current_release}/public/uploads"
+  run "ln -nfs #{deploy_to}/shared/public/uploads #{current_release}/public/uploads"
 
   run "cd #{current_release}; bundle exec rake db:migrate RAILS_ENV=#{rails_env}"
+
+  # Pids
+  run "rm -f #{current_release}/tmp/pids"
+  run "ln -nfs #{deploy_to}/shared/pids #{current_release}/tmp/pids"
 end
 
 after 'deploy:update_code', 'rpush:start'
