@@ -17,6 +17,7 @@
 #  settlement     :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  device_token   :string
 #
 
 class User < ActiveRecord::Base
@@ -40,6 +41,10 @@ class User < ActiveRecord::Base
     gender.present? && birthdate.present? && city.present? && occupation.present? &&
       income.present? && education.present? && relationship.present? &&
       country.present? && region.present? && settlement.present?
+  end
+
+  def push_question
+    Notifier.new(self, 'Новый вопрос!', message: 'NEW_QUESTION')
   end
 
   private

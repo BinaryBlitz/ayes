@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   devise_for :admins, path: 'admin', skip: :registrations
 
   namespace :admin do
-    resources :questions
+    resources :questions do
+      post 'urgent', on: :member
+    end
+
     resources :pool_questions do
       patch 'up', 'down', on: :member
     end

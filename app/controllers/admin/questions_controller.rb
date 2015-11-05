@@ -1,5 +1,5 @@
 class Admin::QuestionsController < Admin::AdminController
-  before_action :set_question, only: [:show, :edit, :update, :destroy, :enqueue]
+  before_action :set_question, only: [:show, :edit, :update, :destroy, :enqueue, :urgent]
 
   def index
     @questions = Question.all.page(params[:page])
@@ -38,18 +38,9 @@ class Admin::QuestionsController < Admin::AdminController
     redirect_to admin_questions_url, notice: 'Вопрос успешно удален.'
   end
 
-  def enqueue
-    Pool.instance.pool_questions.create(question: @question).save
-    redirect_to admin_questions_url, notice: 'Вопрос успешно добавлен в пул.'
-  end
-
-  def dequeue
-    Pool.instance.questions.destroy(@question)
-    redirect_to pool_admin_questions_url, notice: 'Вопрос успешно удален из пула.'
-  end
-
-  def pool
-    @questions = Pool.instance.ordered_questions.page(params[:page])
+  def urgent
+    @question.update(urgent: true)
+    redirect_to admin_questions_url, notice: 'Вопрос успешно отправлен.'
   end
 
   private
