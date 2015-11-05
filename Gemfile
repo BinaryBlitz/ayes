@@ -11,7 +11,7 @@ gem 'rails-i18n'
 gem 'kaminari'
 gem 'kaminari-i18n'
 gem 'rpush'
-gem 'whenever', require: false
+gem 'acts-as-taggable-on'
 
 # Auth
 gem 'has_secure_token'
@@ -27,6 +27,8 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'bootstrap-sass'
+
+gem 'whenever', require: false
 
 gem 'ffaker', group: [:development, :staging]
 
