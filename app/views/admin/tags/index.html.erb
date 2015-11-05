@@ -1,0 +1,23 @@
+<h1>Теги</h1>
+
+<!-- <div class="form-group">
+  <%#= link_to 'Новый тег', new_admin_tag_path, class: 'btn btn-default' %>
+</div> -->
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Тег</th>
+      <th colspan="1">Вопросы</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_tags.each do |admin_tag| %>
+      <tr>
+        <td><%= admin_tag %></td>
+        <td><%= link_to 'Вопросы', admin_questions_path(tag: admin_tag.name), class: 'btn btn-default' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
