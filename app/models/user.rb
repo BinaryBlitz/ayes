@@ -25,6 +25,9 @@ class User < ActiveRecord::Base
 
   has_many :answers, dependent: :destroy
 
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_questions, through: :favorites, source: :question
+
   validates :preferred_time, inclusion: { in: 0..23 }, allow_blank: true
 
   include Questionable

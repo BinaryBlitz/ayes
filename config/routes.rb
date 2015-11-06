@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :favorites
   root 'admin/questions#index'
   devise_for :admins, path: 'admin', skip: :registrations
 
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
     resources :answers, only: [:create], shallow: true
   end
   resource :user, except: [:index, :new, :edit]
+  resource :favorites, only: [:index, :create]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
