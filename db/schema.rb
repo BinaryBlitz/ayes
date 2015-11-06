@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151106160633) do
+ActiveRecord::Schema.define(version: 20151106170731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,6 +147,15 @@ ActiveRecord::Schema.define(version: 20151106160633) do
   end
 
   add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))", using: :btree
+
+  create_table "schedules", force: :cascade do |t|
+    t.integer  "question_id"
+    t.datetime "scheduled_for"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "schedules", ["question_id"], name: "index_schedules_on_question_id", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"

@@ -18,6 +18,8 @@ class Question < ActiveRecord::Base
   validates :epigraph, presence: true
   validates :content, presence: true
 
+  scope :urgent, -> { where(urgent: true) }
+
   acts_as_taggable
 
   def push_now

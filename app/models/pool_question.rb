@@ -34,6 +34,10 @@ class PoolQuestion < ActiveRecord::Base
     User.where(preferred_time: Time.zone.now.hour).each(&:push_question)
   end
 
+  def self.next
+    PoolQuestion.order(priority: :asc).first
+  end
+
   def increase_priority
     next_question = PoolQuestion.where('priority <= ?', priority)
                                 .where.not(id: id)

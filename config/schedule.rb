@@ -20,4 +20,5 @@ end
 every 1.hour do
   # Push question if preferred time is set
   runner 'PoolQuestion.push_with_preferred_time'
+  runner 'Schedule.push_scheduled_questions'
 end
