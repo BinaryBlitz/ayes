@@ -13,6 +13,7 @@ class Schedule < ActiveRecord::Base
   belongs_to :question
 
   validates :question, presence: true
+  validates :scheduled_for, presence: true
 
   scope :for_today, -> { where(scheduled_for: (Time.zone.now - 24.hours)..Time.zone.now) }
   scope :for_now, -> { where(scheduled_for: Time.zone.now..(Time.zone.now + 1.hour)) }

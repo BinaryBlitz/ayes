@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     end
 
     resources :tags, except: [:show, :edit, :new]
+    resources :schedules, only: [:new, :create]
   end
 
   resources :questions, only: [:index] do
