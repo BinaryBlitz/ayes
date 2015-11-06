@@ -24,6 +24,7 @@ class Answer < ActiveRecord::Base
   scope :positive, -> { where(value: true) }
   scope :negative, -> { where(value: false) }
   scope :neutral, -> { where(value: nil) }
+  scope :similar_to, -> (form) { where(form: form) }
 
   private
 

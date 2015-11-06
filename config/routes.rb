@@ -17,7 +17,9 @@ Rails.application.routes.draw do
   end
 
   resources :questions, only: [:index] do
-    resources :answers, only: [:create], shallow: true
+    resources :answers, only: [:create], shallow: true do
+      get 'similar', on: :collection
+    end
   end
   resource :user, except: [:index, :new, :edit]
   resource :favorites, only: [:index, :create]

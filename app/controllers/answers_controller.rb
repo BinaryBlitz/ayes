@@ -11,6 +11,10 @@ class AnswersController < ApplicationController
     end
   end
 
+  def similar
+    @answers = Answer.similar_to(current_user.form)
+  end
+
   private
 
   def set_answer

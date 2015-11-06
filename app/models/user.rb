@@ -32,6 +32,10 @@ class User < ActiveRecord::Base
 
   include Questionable
 
+  def form
+    Form.find_or_create_by(attributes_for_form)
+  end
+
   def attributes_for_form
     {
       gender: gender, age: age, city: city,
