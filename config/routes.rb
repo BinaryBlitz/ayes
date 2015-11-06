@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     resources :tags, except: [:show, :edit, :new]
   end
 
-  resources :questions, only: [:index, :show] do
+  resources :questions, only: [:index] do
     resources :answers, only: [:create], shallow: true
   end
   resource :user, except: [:index, :new, :edit]
