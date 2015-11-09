@@ -1,5 +1,7 @@
 class Notifier
   def initialize(user, message, options = {})
+    return unless user.device_token.present?
+
     @user = user
     @device_token = user.device_token
     @message = message
