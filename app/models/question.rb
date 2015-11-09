@@ -15,6 +15,8 @@ class Question < ActiveRecord::Base
 
   has_many :favorites, dependent: :destroy
 
+  has_many :pool_questions, dependent: :destroy
+
   validates :epigraph, presence: true
   validates :content, presence: true
 
