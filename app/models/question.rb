@@ -24,7 +24,7 @@ class Question < ActiveRecord::Base
   acts_as_taggable
 
   def push_now
-    update(urgent: true)
-    User.all.each(&:push_question)
+    update_attribute(:urgent, true)
+    User.find_each(&:push_question)
   end
 end

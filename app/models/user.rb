@@ -21,6 +21,9 @@
 #
 
 class User < ActiveRecord::Base
+  ATTRIBUTES_FOR_FORM = %i(gender age city occupation income education
+    relationship country region settlement)
+
   has_secure_token :api_token
 
   has_many :answers, dependent: :destroy
@@ -37,17 +40,12 @@ class User < ActiveRecord::Base
   end
 
   def attributes_for_form
-    {
-      gender: gender, age: age, city: city,
-      occupation: occupation, income: income, education: education,
-      relationship: relationship, country: country, region: region, settlement: settlement
-    }
+    Hash[ATTRIBUTES_FOR_FORM.map { |arg| [arg, send(arg)] }]
   end
 
   def profile_complete?
-    gender.present? && birthdate.present? && city.present? && occupation.present? &&
-      income.present? && education.present? && relationship.present? &&
-      country.present? && region.present? && settlement.present?
+    [gender, birthdate, city, occupation, income, education, relationship,
+      country, region, settlement].exclude?(nil)
   end
 
   def push_question
