@@ -17,7 +17,6 @@ class Question < ActiveRecord::Base
 
   has_many :pool_questions, dependent: :destroy
 
-  validates :epigraph, presence: true
   validates :content, presence: true
 
   scope :urgent, -> { where(urgent: true) }
