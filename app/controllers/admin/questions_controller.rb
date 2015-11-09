@@ -40,7 +40,7 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def urgent
-    @question.update(urgent: true)
+    @question.push_now
     redirect_to admin_questions_url, notice: 'Вопрос успешно отправлен.'
   end
 
