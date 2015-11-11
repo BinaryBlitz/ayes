@@ -1,11 +1,6 @@
 class Admin::QuestionsController < Admin::AdminController
   before_action :set_question, only: [:show, :edit, :update, :destroy, :enqueue, :publish, :up, :down]
 
-  # def index
-  #   @questions = Question.all.page(params[:page])
-  #   @questions = @questions.tagged_with(params[:tag]) if params[:tag].present?
-  # end
-
   def show
   end
 

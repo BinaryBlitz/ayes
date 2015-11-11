@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       get 'scheduled', 'published', 'unpublished', on: :collection
     end
 
-    resources :tags, except: [:show, :edit, :new]
+    # resources :tags, except: [:show, :edit, :new]
   end
 
   resources :questions, only: [:index] do
@@ -16,8 +16,8 @@ Rails.application.routes.draw do
       get 'similar', on: :collection
     end
   end
+  resources :favorites, only: [:index, :create]
   resource :user, except: [:index, :new, :edit]
-  resource :favorites, only: [:index, :create]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

@@ -26,9 +26,18 @@ class Question < ActiveRecord::Base
   scope :scheduled, -> { where('published_at > ?', Time.zone.now) }
   # Пул отправленных сейчас
   scope :urgent, -> { where(urgent: true) }
+  # Вопросы на сегодня
+  scope :for_today, -> { where(published_at: 1.day.ago..Time.zone.now) }
+  # Следующий из очереди
+  scope :next, -> { unpublished.order(position: :asc).limit(1) }
 
   acts_as_taggable
   acts_as_list
+
+  def self.feed
+    ids = Question.urgent.ids + Question.for_today.ids + Question.next.ids
+    Question.where(id: ids.uniq)
+  end
 
   def publish
     update(urgent: true, published_at: Time.zone.now)

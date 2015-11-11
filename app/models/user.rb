@@ -27,7 +27,6 @@ class User < ActiveRecord::Base
   has_secure_token :api_token
 
   has_many :answers, dependent: :destroy
-
   has_many :favorites, dependent: :destroy
   has_many :favorite_questions, through: :favorites, source: :question
 
