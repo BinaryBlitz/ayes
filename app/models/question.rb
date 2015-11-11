@@ -15,6 +15,8 @@
 class Question < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
 
   validates :content, presence: true
 
@@ -31,7 +33,6 @@ class Question < ActiveRecord::Base
   # Следующий из очереди
   scope :next, -> { unpublished.order(position: :asc).limit(1) }
 
-  acts_as_taggable
   acts_as_list
 
   def self.feed
