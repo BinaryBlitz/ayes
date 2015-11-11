@@ -14,19 +14,22 @@
 
 class Question < ActiveRecord::Base
   has_many :answers, dependent: :destroy
-
   has_many :favorites, dependent: :destroy
-
   has_many :pool_questions, dependent: :destroy
 
   validates :content, presence: true
 
+  # Пул заданных вопросов
+  scope :published, -> { where('published_at <= ?', Time.zone.now) }
+  # Пул незаданных вопросов
+  scope :unpublished, -> { where(published_at: nil) }
+  # Пул вопросов вне расписания
   scope :urgent, -> { where(urgent: true) }
 
   acts_as_taggable
   acts_as_list
 
-  def push_now
+  def publish
     update_attribute(:urgent, true)
     User.find_each(&:push_question)
   end

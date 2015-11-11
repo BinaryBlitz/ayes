@@ -1,0 +1,22 @@
+<h1>Пул вопросов вне расписания</h1>
+
+<table class="table">
+  <thead>
+    <th>id</th>
+    <th>Вопрос</th>
+    <th>Теги</th>
+    <th>Дата публикации</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <% @questions.each do |question| %>
+      <tr>
+        <td><%= question.id %></td>
+        <td><%= question.content %></td>
+        <td><%= 'Tags' %></td>
+        <td><%= question.published_at %></td>
+        <td></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

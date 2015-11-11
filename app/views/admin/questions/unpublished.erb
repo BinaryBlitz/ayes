@@ -1,0 +1,25 @@
+<h1>Пул незаданных вопросов</h1>
+
+<table class="table">
+  <thead>
+    <th>id</th>
+    <th>Вопрос</th>
+    <th>Теги</th>
+    <th>Позиция</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <% @questions.each do |question| %>
+      <tr>
+        <td><%= question.id %></td>
+        <td><%= question.content %></td>
+        <td><%= 'Tags' %></td>
+        <td><%= question.position %></td>
+        <td>
+          <%= link_to '↑', up_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
+          <%= link_to '↓', up_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -5,7 +5,11 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :questions do
-      post 'urgent', on: :member
+      member do
+        post 'publish'
+        patch 'up', 'down'
+      end
+      get 'urgent', 'published', 'unpublished', on: :collection
     end
 
     resources :pool_questions do

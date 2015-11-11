@@ -13,7 +13,9 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><%= link_to 'Вопросы', admin_questions_path %></li>
-        <li><%= link_to 'Пул', admin_pool_questions_path %></li>
+        <li><%= link_to 'Заданные', published_admin_questions_path %></li>
+        <li><%= link_to 'Незаданные', unpublished_admin_questions_path %></li>
+        <li><%= link_to 'Вне очереди', urgent_admin_questions_path %></li>
         <li><%= link_to 'Теги', admin_tags_path %></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">

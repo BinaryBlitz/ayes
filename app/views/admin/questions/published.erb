@@ -1,0 +1,20 @@
+<h1>Пул заданных вопросов</h1>
+
+<table class="table">
+  <thead>
+    <th>id</th>
+    <th>Вопрос</th>
+    <th>Дата публикации</th>
+    <th>Теги</th>
+  </thead>
+  <tbody>
+    <tr>
+      <% @questions.each do |question| %>
+        <td><%= question.id %></td>
+        <td><%= question.content %></td>
+        <td><%= question.published_at.to_formatted_s(:long) %></td>
+        <td><%= question.tag_list %></td>
+      <% end %>
+    </tr>
+  </tbody>
+</table>

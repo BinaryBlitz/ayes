@@ -25,7 +25,7 @@
           <% end %>
         </td>
         <td><%= button_to 'В очередь', admin_pool_questions_path(question_id: question), class: 'btn btn-default' %></td>
-        <td><%= button_to 'Отправить немедленно', urgent_admin_question_path(question), class: 'btn btn-default' %></td>
+        <td><%# button_to 'Отправить немедленно', urgent_admin_question_path(question), class: 'btn btn-default' %></td>
         <td>
           <%= link_to 'Задать расписание', new_admin_schedule_path(question_id: question), class: 'btn btn-default' %>
         </td>

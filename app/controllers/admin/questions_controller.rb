@@ -1,5 +1,5 @@
 class Admin::QuestionsController < Admin::AdminController
-  before_action :set_question, only: [:show, :edit, :update, :destroy, :enqueue, :urgent]
+  before_action :set_question, only: [:show, :edit, :update, :destroy, :enqueue]
 
   def index
     @questions = Question.all.page(params[:page])
@@ -39,9 +39,21 @@ class Admin::QuestionsController < Admin::AdminController
     redirect_to admin_questions_url, notice: 'Вопрос успешно удален.'
   end
 
-  def urgent
+  def publish
     @question.push_now
     redirect_to admin_questions_url, notice: 'Вопрос успешно отправлен.'
+  end
+
+  def published
+    @questions = Question.published
+  end
+
+  def unpublished
+    @questions = Question.unpublished
+  end
+
+  def urgent
+    @questions = Question.urgent
   end
 
   private
