@@ -1,0 +1,26 @@
+<h1>Расписание</h1>
+
+<%= form_for [:admin, @schedule] do |f| %>
+  <% if @schedule.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@schedule.errors.count, "error") %> prohibited this schedule from being saved:</h2>
+
+      <ul>
+      <% @schedule.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :question_id, value: params[:question_id] %>
+
+  <div class="form-group">
+    <%= f.label :scheduled_for %>
+    <%= f.text_field :scheduled_for, class: 'form-control', id: 'datetimepicker4' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit class: 'btn btn-default' %>
+  </div>
+<% end %>

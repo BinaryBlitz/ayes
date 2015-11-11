@@ -1,8 +1,9 @@
 class Admin::QuestionsController < Admin::AdminController
-  before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_question, only: [:show, :edit, :update, :destroy, :enqueue, :urgent]
 
   def index
     @questions = Question.all.page(params[:page])
+    @questions = @questions.tagged_with(params[:tag]) if params[:tag].present?
   end
 
   def show
@@ -19,7 +20,7 @@ class Admin::QuestionsController < Admin::AdminController
     @question = Question.new(question_params)
 
     if @question.save
-      redirect_to @question, notice: 'Question was successfully created.'
+      redirect_to [:admin, @question], notice: 'Вопрос успешно создан.'
     else
       render :new
     end
@@ -27,7 +28,7 @@ class Admin::QuestionsController < Admin::AdminController
 
   def update
     if @question.update(question_params)
-      redirect_to @question, notice: 'Question was successfully updated.'
+      redirect_to [:admin, @question], notice: 'Вопрос успешно обновлен.'
     else
       render :edit
     end
@@ -35,7 +36,12 @@ class Admin::QuestionsController < Admin::AdminController
 
   def destroy
     @question.destroy
-    redirect_to admin_questions_url, notice: 'Question was successfully destroyed.'
+    redirect_to admin_questions_url, notice: 'Вопрос успешно удален.'
+  end
+
+  def urgent
+    @question.push_now
+    redirect_to admin_questions_url, notice: 'Вопрос успешно отправлен.'
   end
 
   private
@@ -45,6 +51,6 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def question_params
-    params.require(:question).permit(:epigraph, :content)
+    params.require(:question).permit(:epigraph, :content, :tag_list)
   end
 end

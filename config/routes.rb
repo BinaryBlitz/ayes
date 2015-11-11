@@ -1,15 +1,28 @@
 Rails.application.routes.draw do
+  resources :favorites
   root 'admin/questions#index'
   devise_for :admins, path: 'admin', skip: :registrations
 
   namespace :admin do
-    resources :questions
+    resources :questions do
+      post 'urgent', on: :member
+    end
+
+    resources :pool_questions do
+      patch 'up', 'down', on: :member
+    end
+
+    resources :tags, except: [:show, :edit, :new]
+    resources :schedules, only: [:new, :create]
   end
 
-  resources :questions, only: [:index, :show] do
-    resources :answers, only: [:create], shallow: true
+  resources :questions, only: [:index] do
+    resources :answers, only: [:create], shallow: true do
+      get 'similar', on: :collection
+    end
   end
   resource :user, except: [:index, :new, :edit]
+  resource :favorites, only: [:index, :create]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
