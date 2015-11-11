@@ -15,7 +15,6 @@
 class Question < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :favorites, dependent: :destroy
-  has_many :pool_questions, dependent: :destroy
 
   validates :content, presence: true
 

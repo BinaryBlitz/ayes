@@ -6,7 +6,7 @@
     <th>Вопрос</th>
     <th>Теги</th>
     <th>Позиция</th>
-    <th></th>
+    <th colspan="2"></th>
   </thead>
   <tbody>
     <% @questions.each do |question| %>
@@ -18,8 +18,11 @@
         <td>
           <%= link_to '↑', up_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
           <%= link_to '↓', down_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
-          <%= link_to 'Вне очереди', publish_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
+          <%= link_to 'Отправить', publish_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
+        </td>
+        <td>
           <%= link_to 'Изменить', edit_admin_question_path(question), class: 'btn btn-default' %>
+          <%= link_to 'Удалить', [:admin, question], method: :delete, class: 'btn btn-danger', data: { confirm: 'Вы уверены?' } %>
         </td>
       </tr>
     <% end %>

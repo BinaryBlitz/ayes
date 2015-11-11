@@ -1,10 +1,10 @@
 class Admin::QuestionsController < Admin::AdminController
   before_action :set_question, only: [:show, :edit, :update, :destroy, :enqueue, :publish, :up, :down]
 
-  def index
-    @questions = Question.all.page(params[:page])
-    @questions = @questions.tagged_with(params[:tag]) if params[:tag].present?
-  end
+  # def index
+  #   @questions = Question.all.page(params[:page])
+  #   @questions = @questions.tagged_with(params[:tag]) if params[:tag].present?
+  # end
 
   def show
   end
@@ -36,16 +36,12 @@ class Admin::QuestionsController < Admin::AdminController
 
   def destroy
     @question.destroy
-    redirect_to admin_questions_url, notice: 'Вопрос успешно удален.'
+    redirect_to unpublished_admin_questions_url, notice: 'Вопрос успешно удален.'
   end
 
   def publish
     @question.publish
     redirect_to published_admin_questions_url, notice: 'Вопрос успешно отправлен.'
-  end
-
-  def published
-    @questions = Question.published
   end
 
   def unpublished
@@ -54,6 +50,10 @@ class Admin::QuestionsController < Admin::AdminController
 
   def scheduled
     @questions = Question.scheduled
+  end
+
+  def published
+    @questions = Question.published.order(published_at: :desc)
   end
 
   def up
