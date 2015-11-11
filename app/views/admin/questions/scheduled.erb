@@ -15,7 +15,9 @@
         <td><%= question.content %></td>
         <td><%= 'Tags' %></td>
         <td><%= question.published_at %></td>
-        <td></td>
+        <td>
+          <%= link_to 'Изменить', edit_admin_question_path(question), class: 'btn btn-default' %>
+        </td>
       </tr>
     <% end %>
   </tbody>

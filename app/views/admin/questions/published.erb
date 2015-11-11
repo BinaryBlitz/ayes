@@ -8,13 +8,13 @@
     <th>Теги</th>
   </thead>
   <tbody>
-    <tr>
-      <% @questions.each do |question| %>
+    <% @questions.each do |question| %>
+      <tr>
         <td><%= question.id %></td>
         <td><%= question.content %></td>
         <td><%= question.published_at.to_formatted_s(:long) %></td>
         <td><%= question.tag_list %></td>
-      <% end %>
-    </tr>
+      </tr>
+    <% end %>
   </tbody>
 </table>

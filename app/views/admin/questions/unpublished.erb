@@ -17,7 +17,9 @@
         <td><%= question.position %></td>
         <td>
           <%= link_to '↑', up_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
-          <%= link_to '↓', up_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
+          <%= link_to '↓', down_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
+          <%= link_to 'Вне очереди', publish_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
+          <%= link_to 'Изменить', edit_admin_question_path(question), class: 'btn btn-default' %>
         </td>
       </tr>
     <% end %>

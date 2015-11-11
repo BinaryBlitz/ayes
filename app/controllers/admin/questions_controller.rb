@@ -1,5 +1,5 @@
 class Admin::QuestionsController < Admin::AdminController
-  before_action :set_question, only: [:show, :edit, :update, :destroy, :enqueue]
+  before_action :set_question, only: [:show, :edit, :update, :destroy, :enqueue, :publish, :up, :down]
 
   def index
     @questions = Question.all.page(params[:page])
@@ -40,8 +40,8 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def publish
-    @question.push_now
-    redirect_to admin_questions_url, notice: 'Вопрос успешно отправлен.'
+    @question.publish
+    redirect_to published_admin_questions_url, notice: 'Вопрос успешно отправлен.'
   end
 
   def published
@@ -49,11 +49,21 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def unpublished
-    @questions = Question.unpublished
+    @questions = Question.unpublished.order(position: :asc)
   end
 
-  def urgent
-    @questions = Question.urgent
+  def scheduled
+    @questions = Question.scheduled
+  end
+
+  def up
+    @question.move_higher
+    redirect_to unpublished_admin_questions_path, notice: 'Приоритет повышен.'
+  end
+
+  def down
+    @question.move_lower
+    redirect_to unpublished_admin_questions_path, notice: 'Приоритет понижен.'
   end
 
   private
@@ -63,6 +73,6 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def question_params
-    params.require(:question).permit(:epigraph, :content, :tag_list)
+    params.require(:question).permit(:epigraph, :content, :tag_list, :published_at)
   end
 end

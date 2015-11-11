@@ -5,11 +5,8 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :questions do
-      member do
-        post 'publish'
-        patch 'up', 'down'
-      end
-      get 'urgent', 'published', 'unpublished', on: :collection
+      patch 'up', 'down', 'publish', on: :member
+      get 'scheduled', 'published', 'unpublished', on: :collection
     end
 
     resources :pool_questions do

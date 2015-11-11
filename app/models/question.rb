@@ -24,13 +24,16 @@ class Question < ActiveRecord::Base
   # Пул незаданных вопросов
   scope :unpublished, -> { where(published_at: nil) }
   # Пул вопросов вне расписания
+  scope :scheduled, -> { where('published_at > ?', Time.zone.now) }
+  # Пул отправленных сейчас
   scope :urgent, -> { where(urgent: true) }
 
   acts_as_taggable
   acts_as_list
 
   def publish
-    update_attribute(:urgent, true)
+    update(urgent: true, published_at: Time.zone.now)
+    remove_from_list
     User.find_each(&:push_question)
   end
 end
