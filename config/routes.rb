@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  resources :favorites
-  root 'admin/questions#index'
+  root 'admin/questions#unpublished'
   devise_for :admins, path: 'admin', skip: :registrations
 
   namespace :admin do
@@ -9,12 +8,7 @@ Rails.application.routes.draw do
       get 'scheduled', 'published', 'unpublished', on: :collection
     end
 
-    resources :pool_questions do
-      patch 'up', 'down', on: :member
-    end
-
     resources :tags, except: [:show, :edit, :new]
-    resources :schedules, only: [:new, :create]
   end
 
   resources :questions, only: [:index] do
@@ -24,9 +18,6 @@ Rails.application.routes.draw do
   end
   resource :user, except: [:index, :new, :edit]
   resource :favorites, only: [:index, :create]
-
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
