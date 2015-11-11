@@ -2,12 +2,14 @@
 #
 # Table name: questions
 #
-#  id         :integer          not null, primary key
-#  epigraph   :string
-#  content    :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  urgent     :boolean
+#  id           :integer          not null, primary key
+#  epigraph     :string
+#  content      :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  urgent       :boolean
+#  published_at :datetime
+#  position     :integer
 #
 
 class Question < ActiveRecord::Base
@@ -22,6 +24,7 @@ class Question < ActiveRecord::Base
   scope :urgent, -> { where(urgent: true) }
 
   acts_as_taggable
+  acts_as_list
 
   def push_now
     update_attribute(:urgent, true)
