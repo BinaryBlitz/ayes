@@ -1,10 +1,5 @@
 class Admin::QuestionsController < Admin::AdminController
-  before_action :set_question, only: [:show, :edit, :update, :destroy, :enqueue, :urgent]
-
-  def index
-    @questions = Question.all.page(params[:page])
-    @questions = @questions.tagged_with(params[:tag]) if params[:tag].present?
-  end
+  before_action :set_question, only: [:show, :edit, :update, :destroy, :enqueue, :publish, :up, :down]
 
   def show
   end
@@ -36,12 +31,34 @@ class Admin::QuestionsController < Admin::AdminController
 
   def destroy
     @question.destroy
-    redirect_to admin_questions_url, notice: 'Вопрос успешно удален.'
+    redirect_to unpublished_admin_questions_url, notice: 'Вопрос успешно удален.'
   end
 
-  def urgent
-    @question.push_now
-    redirect_to admin_questions_url, notice: 'Вопрос успешно отправлен.'
+  def publish
+    @question.publish
+    redirect_to published_admin_questions_url, notice: 'Вопрос успешно отправлен.'
+  end
+
+  def unpublished
+    @questions = Question.unpublished.order(position: :asc)
+  end
+
+  def scheduled
+    @questions = Question.scheduled
+  end
+
+  def published
+    @questions = Question.published.order(published_at: :desc)
+  end
+
+  def up
+    @question.move_higher
+    redirect_to unpublished_admin_questions_path, notice: 'Приоритет повышен.'
+  end
+
+  def down
+    @question.move_lower
+    redirect_to unpublished_admin_questions_path, notice: 'Приоритет понижен.'
   end
 
   private
@@ -51,6 +68,6 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def question_params
-    params.require(:question).permit(:epigraph, :content, :tag_list)
+    params.require(:question).permit(:epigraph, :content, :tag_list, :published_at)
   end
 end

@@ -27,13 +27,16 @@ class User < ActiveRecord::Base
   has_secure_token :api_token
 
   has_many :answers, dependent: :destroy
-
   has_many :favorites, dependent: :destroy
   has_many :favorite_questions, through: :favorites, source: :question
 
   validates :preferred_time, inclusion: { in: 0..23 }, allow_blank: true
 
   include Questionable
+
+  def self.notify_all
+    User.find_each(&:push_question)
+  end
 
   def form
     Form.find_or_create_by(attributes_for_form)

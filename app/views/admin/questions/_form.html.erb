@@ -22,6 +22,11 @@
   </div>
 
   <div class="form-group">
+    <%= f.label :publushed_at, 'Дата отправки' %>
+    <%= f.text_field :published_at, class: 'form-control', id: 'datetimepicker4' %>
+  </div>
+
+  <div class="form-group">
     <%= f.label :tag_list %>
     <%= f.text_field :tag_list, class: 'form-control' %>
   </div>

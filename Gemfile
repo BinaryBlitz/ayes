@@ -12,6 +12,7 @@ gem 'kaminari'
 gem 'kaminari-i18n'
 gem 'rpush'
 gem 'acts-as-taggable-on'
+gem 'acts_as_list'
 
 # Auth
 gem 'has_secure_token'

@@ -1,19 +1,14 @@
 Rails.application.routes.draw do
-  resources :favorites
-  root 'admin/questions#index'
+  root 'admin/questions#unpublished'
   devise_for :admins, path: 'admin', skip: :registrations
 
   namespace :admin do
-    resources :questions do
-      post 'urgent', on: :member
+    resources :questions, except: [:index] do
+      patch 'up', 'down', 'publish', on: :member
+      get 'scheduled', 'published', 'unpublished', on: :collection
     end
 
-    resources :pool_questions do
-      patch 'up', 'down', on: :member
-    end
-
-    resources :tags, except: [:show, :edit, :new]
-    resources :schedules, only: [:new, :create]
+    # resources :tags, except: [:show, :edit, :new]
   end
 
   resources :questions, only: [:index] do
@@ -21,11 +16,8 @@ Rails.application.routes.draw do
       get 'similar', on: :collection
     end
   end
+  resources :favorites, only: [:index, :create]
   resource :user, except: [:index, :new, :edit]
-  resource :favorites, only: [:index, :create]
-
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
