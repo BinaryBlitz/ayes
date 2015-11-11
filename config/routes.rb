@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       get 'scheduled', 'published', 'unpublished', on: :collection
     end
 
-    # resources :tags, except: [:show, :edit, :new]
+    resources :tags, except: [:show]
   end
 
   resources :questions, only: [:index] do

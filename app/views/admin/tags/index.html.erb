@@ -1,14 +1,14 @@
 <h1>Теги</h1>
 
-<!-- <div class="form-group">
-  <%#= link_to 'Новый тег', new_admin_tag_path, class: 'btn btn-default' %>
-</div> -->
+<div class="form-group">
+  <%= link_to 'Новый тег', new_admin_tag_path, class: 'btn btn-default' %>
+</div>
 
 <table class="table">
   <thead>
     <tr>
       <th>Тег</th>
-      <th colspan="1">Вопросы</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -16,7 +16,13 @@
     <% @admin_tags.each do |admin_tag| %>
       <tr>
         <td><%= admin_tag %></td>
-        <td><%= link_to 'Вопросы', admin_questions_path(tag: admin_tag.name), class: 'btn btn-default' %></td>
+        <td>
+          <%= link_to 'Вопросы', admin_questions_path(tag: admin_tag.name), class: 'btn btn-default' %>
+        </td>
+        <td>
+          <%= link_to 'Изменить', edit_admin_tag_path(admin_tag), class: 'btn btn-default' %>
+          <%= link_to 'Удалить', [:admin, admin_tag], method: :delete, class: 'btn btn-danger', data: { confirm: 'Вы уверены?' } %>
+        </td>
       </tr>
     <% end %>
   </tbody>
