@@ -63,6 +63,13 @@ class Question < ActiveRecord::Base
     end
   end
 
+  def self.search_by(params)
+    questions = Question.all
+    questions = questions.where(id: params[:id]) if params[:id].present?
+    questions = questions.where('content ILIKE ?', "%#{params[:content]}%") if params[:content].present?
+    questions
+  end
+
   def publish
     update(urgent: true, published_at: Time.zone.now)
     remove_from_list

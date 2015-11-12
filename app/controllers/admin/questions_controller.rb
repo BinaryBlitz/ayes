@@ -49,6 +49,7 @@ class Admin::QuestionsController < Admin::AdminController
       .by_region(params[:region])
       .tagged(params[:tag])
       .page(params[:page])
+      .search_by(search_params)
   end
 
   def scheduled
@@ -56,6 +57,7 @@ class Admin::QuestionsController < Admin::AdminController
       .by_region(params[:region])
       .tagged(params[:tag])
       .page(params[:page])
+      .search_by(search_params)
   end
 
   def published
@@ -64,6 +66,7 @@ class Admin::QuestionsController < Admin::AdminController
       .by_region(params[:region])
       .tagged(params[:tag])
       .page(params[:page])
+      .search_by(search_params)
   end
 
   def up
@@ -88,5 +91,9 @@ class Admin::QuestionsController < Admin::AdminController
         :epigraph, :content, :tag_list, :published_at, :region,
         taggings_attributes: [:id, :tag_id, :_destroy]
       )
+  end
+
+  def search_params
+    params.permit(:id, :content).reject { |key, value| value.blank? }
   end
 end
