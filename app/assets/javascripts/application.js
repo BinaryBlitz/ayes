@@ -16,6 +16,7 @@
 //= require turbolinks
 //= require moment
 //= require bootstrap-datetimepicker
+//= require nested_form_fields
 //= require_tree .
 
 $(document).on('ready page:load', function() {

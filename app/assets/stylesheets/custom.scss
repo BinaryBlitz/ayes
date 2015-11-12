@@ -31,3 +31,15 @@ body {
 .alert-alert {
   @extend .alert-danger !optional;
 }
+
+// Select
+.select {
+  select {
+    display: inline-block;
+    width: auto;
+  }
+
+  .btn-danger {
+    display: inline-block;
+  }
+}

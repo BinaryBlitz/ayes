@@ -8,9 +8,8 @@
   <thead>
     <tr>
       <th>Вопрос</th>
-      <th>Эпиграф</th>
       <th>Теги</th>
-      <th colspan="5"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -18,21 +17,16 @@
     <% @questions.each do |question| %>
       <tr>
         <td><%= link_to question.content, [:admin, question] %></td>
-        <td><%= question.epigraph %></td>
         <td>
-          <% question.tag_list.each do |tag| %>
-            <%= link_to tag, admin_questions_path(tag: tag) %>
+          <% question.tags.each do |tag| %>
+            <%= link_to tag, admin_questions_path(tag: tag.name) %>
           <% end %>
         </td>
-        <td><%= button_to 'В очередь', admin_pool_questions_path(question_id: question), class: 'btn btn-default' %></td>
-        <td><%= button_to 'Отправить немедленно', urgent_admin_question_path(question), class: 'btn btn-default' %></td>
         <td>
-          <%= link_to 'Задать расписание', new_admin_schedule_path(question_id: question), class: 'btn btn-default' %>
+          <%= link_to 'Отправить', publish_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
         </td>
         <td>
           <%= link_to 'Изменить', edit_admin_question_path(question), class: 'btn btn-default' %>
-        </td>
-        <td>
           <%= link_to 'Удалить', [:admin, question], method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-danger' %>
         </td>
       </tr>
