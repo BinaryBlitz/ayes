@@ -12,9 +12,27 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><%= link_to 'Незаданные', unpublished_admin_questions_path %></li>
-        <li><%= link_to 'Вне очереди', scheduled_admin_questions_path %></li>
-        <li><%= link_to 'Заданные', published_admin_questions_path %></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Незаданные <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Россия', unpublished_admin_questions_path(region: 'russia') %></li>
+            <li><%= link_to 'Мир', unpublished_admin_questions_path(region: 'world') %></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Вне очереди <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Россия', scheduled_admin_questions_path(region: 'russia') %></li>
+            <li><%= link_to 'Мир', scheduled_admin_questions_path(region: 'world') %></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Заданные<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Россия', published_admin_questions_path(region: 'russia') %></li>
+            <li><%= link_to 'Мир', published_admin_questions_path(region: 'world') %></li>
+          </ul>
+        </li>
         <li><%= link_to 'Теги', admin_tags_path %></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">

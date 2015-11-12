@@ -25,7 +25,7 @@ class Question < ActiveRecord::Base
 
   accepts_nested_attributes_for :taggings, allow_destroy: true
 
-  include Enumerize
+  extend Enumerize
   enumerize :region, in: ['russia', 'world']
 
   # Пул заданных вопросов
@@ -41,16 +41,26 @@ class Question < ActiveRecord::Base
   # Следующий из очереди
   scope :next, -> { unpublished.order(position: :asc).limit(1) }
 
+  scope :by_region, -> (region) { where(region: region) if region }
+
   acts_as_list
 
-  def self.feed
+  def self.feed_for(current_user)
     ids = Question.urgent.ids + Question.for_today.ids + Question.next.ids
-    Question.where(id: ids.uniq)
+    Question.where(id: ids.uniq).by_country(current_user.country)
   end
 
   def self.tagged(tag)
     questions = joins(:tags).where(tags: { name: tag })
     questions.any? ? questions : all
+  end
+
+  def self.by_country(country)
+    if country.blank? || country == 'RU'
+      where(region: 'russia')
+    else
+      where(region: 'world')
+    end
   end
 
   def publish
