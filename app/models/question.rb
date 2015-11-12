@@ -19,6 +19,7 @@ class Question < ActiveRecord::Base
   has_many :tags, through: :taggings
 
   validates :content, presence: true
+  validate :not_too_long
 
   accepts_nested_attributes_for :taggings, allow_destroy: true
 
@@ -51,5 +52,15 @@ class Question < ActiveRecord::Base
     update(urgent: true, published_at: Time.zone.now)
     remove_from_list
     User.find_each(&:push_question)
+  end
+
+  private
+
+  def not_too_long
+    return unless epigraph.present? && content.present?
+
+    if content.length + epigraph.length > 200
+      errors.add(:epigraph, 'is too long')
+    end
   end
 end
