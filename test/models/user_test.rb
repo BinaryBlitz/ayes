@@ -6,7 +6,6 @@
 #  api_token      :string
 #  gender         :string
 #  birthdate      :date
-#  city           :string
 #  occupation     :string
 #  income         :string
 #  education      :string

@@ -8,7 +8,7 @@ class UsersTest < ActionDispatch::IntegrationTest
   test 'create' do
     post '/user.json', user: {
       gender: 'male', birthdate: Date.today, preferred_time: 0,
-      city: 'Chicago', country: 'US'
+      settlement: 'city', country: 'US'
     }
     assert_response :created
   end

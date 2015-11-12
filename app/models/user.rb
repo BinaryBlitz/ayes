@@ -6,7 +6,6 @@
 #  api_token      :string
 #  gender         :string
 #  birthdate      :date
-#  city           :string
 #  occupation     :string
 #  income         :string
 #  education      :string
@@ -21,7 +20,7 @@
 #
 
 class User < ActiveRecord::Base
-  ATTRIBUTES_FOR_FORM = %i(gender age city occupation income education
+  ATTRIBUTES_FOR_FORM = %i(gender age occupation income education
     relationship country region settlement)
 
   has_secure_token :api_token
@@ -47,7 +46,7 @@ class User < ActiveRecord::Base
   end
 
   def profile_complete?
-    [gender, birthdate, city, occupation, income, education, relationship,
+    [gender, birthdate, occupation, income, education, relationship,
       country, region, settlement].exclude?(nil)
   end
 

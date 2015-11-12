@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151112154506) do
+ActiveRecord::Schema.define(version: 20151112221425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,7 +60,6 @@ ActiveRecord::Schema.define(version: 20151112154506) do
   create_table "forms", force: :cascade do |t|
     t.string   "gender"
     t.integer  "age"
-    t.string   "city"
     t.string   "occupation"
     t.string   "income"
     t.string   "education"
@@ -164,7 +163,6 @@ ActiveRecord::Schema.define(version: 20151112154506) do
     t.string   "api_token"
     t.string   "gender"
     t.date     "birthdate"
-    t.string   "city"
     t.string   "occupation"
     t.string   "income"
     t.string   "education"

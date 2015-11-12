@@ -6,7 +6,6 @@
 #  api_token      :string
 #  gender         :string
 #  birthdate      :date
-#  city           :string
 #  occupation     :string
 #  income         :string
 #  education      :string
@@ -24,7 +23,6 @@ foo:
   api_token: <%= SecureRandom.hex %>
   # gender: male
   # birthdate: 1970-01-01
-  # city: Moscow
   # occupation:
   # income:
   # education:
@@ -32,3 +30,4 @@ foo:
   # preferred_time:
   # country: RU
   # region: MOW
+  # settlement: city
