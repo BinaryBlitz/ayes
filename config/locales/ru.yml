@@ -7,6 +7,6 @@ ru:
       question:
         content: Содержание
         epigraph: Эпиграф
-        tag_list: Теги
+        tags: Теги
       tag:
         name: Название

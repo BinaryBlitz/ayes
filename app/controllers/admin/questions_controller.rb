@@ -1,6 +1,10 @@
 class Admin::QuestionsController < Admin::AdminController
   before_action :set_question, only: [:show, :edit, :update, :destroy, :enqueue, :publish, :up, :down]
 
+  def index
+    @questions = Question.all.tagged(params[:tag]).page(params[:page])
+  end
+
   def show
   end
 
@@ -40,15 +44,15 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def unpublished
-    @questions = Question.unpublished.order(position: :asc)
+    @questions = Question.unpublished.order(position: :asc).tagged(params[:tag]).page(params[:page])
   end
 
   def scheduled
-    @questions = Question.scheduled
+    @questions = Question.scheduled.tagged(params[:tag]).page(params[:page])
   end
 
   def published
-    @questions = Question.published.order(published_at: :desc)
+    @questions = Question.published.order(published_at: :desc).tagged(params[:tag]).page(params[:page])
   end
 
   def up
@@ -68,6 +72,10 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def question_params
-    params.require(:question).permit(:epigraph, :content, :tag_list, :published_at)
+    params.require(:question)
+      .permit(
+        :epigraph, :content, :tag_list, :published_at,
+        taggings_attributes: [:id, :tag_id, :_destroy]
+      )
   end
 end

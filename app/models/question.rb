@@ -20,6 +20,8 @@ class Question < ActiveRecord::Base
 
   validates :content, presence: true
 
+  accepts_nested_attributes_for :taggings, allow_destroy: true
+
   # Пул заданных вопросов
   scope :published, -> { where('published_at <= ?', Time.zone.now) }
   # Пул незаданных вопросов
@@ -38,6 +40,11 @@ class Question < ActiveRecord::Base
   def self.feed
     ids = Question.urgent.ids + Question.for_today.ids + Question.next.ids
     Question.where(id: ids.uniq)
+  end
+
+  def self.tagged(tag)
+    questions = joins(:tags).where(tags: { name: tag })
+    questions.any? ? questions : all
   end
 
   def publish
