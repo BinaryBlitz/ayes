@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'forms/index'
+
   root 'admin/questions#unpublished'
   devise_for :admins, path: 'admin', skip: :registrations
 
@@ -13,7 +15,10 @@ Rails.application.routes.draw do
 
   resources :questions, only: [:index] do
     resources :answers, only: [:create], shallow: true do
-      get 'similar', on: :collection
+      collection do
+        get 'similar'
+        post 'forms' => 'forms#index'
+      end
     end
   end
   resources :favorites, only: [:index, :create]
