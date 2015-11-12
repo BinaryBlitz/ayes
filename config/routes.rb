@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :admins, path: 'admin', skip: :registrations
 
   namespace :admin do
-    resources :questions, except: [:index] do
+    resources :questions do
       patch 'up', 'down', 'publish', on: :member
       get 'scheduled', 'published', 'unpublished', on: :collection
     end
