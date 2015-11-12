@@ -1,4 +1,4 @@
-<h1>Пул незаданных вопросов</h1>
+<h1>Вопросы</h1>
 
 <div class="form-group">
   <%= link_to 'Новый вопрос', new_admin_question_path, class: 'btn btn-default' %>
@@ -6,31 +6,28 @@
 
 <table class="table">
   <thead>
-    <th>id</th>
-    <th>Вопрос</th>
-    <th>Теги</th>
-    <th>Позиция</th>
-    <th colspan="2"></th>
+    <tr>
+      <th>Вопрос</th>
+      <th>Теги</th>
+      <th colspan="2"></th>
+    </tr>
   </thead>
+
   <tbody>
     <% @questions.each do |question| %>
       <tr>
-        <td><%= question.id %></td>
         <td><%= link_to question.content, [:admin, question] %></td>
         <td>
           <% question.tags.each do |tag| %>
-            <%= link_to tag, unpublished_admin_questions_path(tag: tag.name) %>
+            <%= link_to tag, admin_questions_path(tag: tag.name) %>
           <% end %>
         </td>
-        <td><%= question.position %></td>
         <td>
-          <%= link_to '↑', up_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
-          <%= link_to '↓', down_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
           <%= link_to 'Отправить', publish_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
         </td>
         <td>
           <%= link_to 'Изменить', edit_admin_question_path(question), class: 'btn btn-default' %>
-          <%= link_to 'Удалить', [:admin, question], method: :delete, class: 'btn btn-danger', data: { confirm: 'Вы уверены?' } %>
+          <%= link_to 'Удалить', [:admin, question], method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-danger' %>
         </td>
       </tr>
     <% end %>

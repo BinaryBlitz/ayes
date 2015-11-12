@@ -16,8 +16,12 @@
     <% @questions.each do |question| %>
       <tr>
         <td><%= question.id %></td>
-        <td><%= question.content %></td>
-        <td><%= 'Tags' %></td>
+        <td><%= link_to question.content, [:admin, question] %></td>
+        <td>
+          <% question.tags.each do |tag| %>
+            <%= link_to tag, unpublished_admin_questions_path(tag: tag.name) %>
+          <% end %>
+        </td>
         <td><%= question.published_at %></td>
         <td>
           <%= link_to 'Изменить', edit_admin_question_path(question), class: 'btn btn-default' %>
@@ -27,3 +31,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= paginate @questions %>

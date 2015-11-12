@@ -15,8 +15,12 @@
 class Question < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
 
   validates :content, presence: true
+
+  accepts_nested_attributes_for :taggings, allow_destroy: true
 
   # Пул заданных вопросов
   scope :published, -> { where('published_at <= ?', Time.zone.now) }
@@ -31,12 +35,16 @@ class Question < ActiveRecord::Base
   # Следующий из очереди
   scope :next, -> { unpublished.order(position: :asc).limit(1) }
 
-  acts_as_taggable
   acts_as_list
 
   def self.feed
     ids = Question.urgent.ids + Question.for_today.ids + Question.next.ids
     Question.where(id: ids.uniq)
+  end
+
+  def self.tagged(tag)
+    questions = joins(:tags).where(tags: { name: tag })
+    questions.any? ? questions : all
   end
 
   def publish

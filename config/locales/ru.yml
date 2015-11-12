@@ -2,8 +2,11 @@ ru:
   activerecord:
     models:
       question: Вопрос
+      tag: Тег
     attributes:
       question:
         content: Содержание
         epigraph: Эпиграф
-        tag_list: Теги
+        tags: Теги
+      tag:
+        name: Название

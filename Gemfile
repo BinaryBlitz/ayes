@@ -11,8 +11,8 @@ gem 'rails-i18n'
 gem 'kaminari'
 gem 'kaminari-i18n'
 gem 'rpush'
-gem 'acts-as-taggable-on'
 gem 'acts_as_list'
+gem 'nested_form_fields'
 
 # Auth
 gem 'has_secure_token'
