@@ -7,7 +7,7 @@ err_log    = "#{rails_root}/log/unicorn_error.log"
 old_pid    = pid_file + '.oldbin'
 
 timeout 15
-worker_processes 4
+worker_processes 1
 listen socket_file, backlog: 2048
 pid pid_file
 stderr_path err_log
