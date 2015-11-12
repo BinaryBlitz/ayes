@@ -15,7 +15,7 @@
 class Question < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :favorites, dependent: :destroy
-  has_many :taggings, dependent: :destroy
+  has_many :taggings, dependent: :destroy, inverse_of: :question
   has_many :tags, through: :taggings
 
   validates :content, presence: true

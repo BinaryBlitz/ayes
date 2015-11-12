@@ -11,8 +11,7 @@
 
 class Tagging < ActiveRecord::Base
   belongs_to :tag
-  belongs_to :question
-
+  belongs_to :question, inverse_of: :taggings
 
   validates :question, presence: true
   validates :tag, presence: true, uniqueness: { scope: :question }
