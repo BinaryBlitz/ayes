@@ -10,6 +10,7 @@
 #  urgent       :boolean
 #  published_at :datetime
 #  position     :integer
+#  region       :string           default("russia")
 #
 
 class Question < ActiveRecord::Base
@@ -19,9 +20,13 @@ class Question < ActiveRecord::Base
   has_many :tags, through: :taggings
 
   validates :content, presence: true
+  validates :region, presence: true
   validate :not_too_long
 
   accepts_nested_attributes_for :taggings, allow_destroy: true
+
+  include Enumerize
+  enumerize :region, in: ['russia', 'world']
 
   # Пул заданных вопросов
   scope :published, -> { where('published_at <= ?', Time.zone.now) }

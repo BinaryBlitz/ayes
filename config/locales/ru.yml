@@ -8,5 +8,6 @@ ru:
         content: Содержание
         epigraph: Эпиграф
         tags: Теги
+        region: Регион
       tag:
         name: Название

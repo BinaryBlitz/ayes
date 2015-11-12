@@ -74,7 +74,7 @@ class Admin::QuestionsController < Admin::AdminController
   def question_params
     params.require(:question)
       .permit(
-        :epigraph, :content, :tag_list, :published_at,
+        :epigraph, :content, :tag_list, :published_at, :region,
         taggings_attributes: [:id, :tag_id, :_destroy]
       )
   end

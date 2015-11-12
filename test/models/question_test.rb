@@ -10,6 +10,7 @@
 #  urgent       :boolean
 #  published_at :datetime
 #  position     :integer
+#  region       :string           default("russia")
 #
 
 require 'test_helper'

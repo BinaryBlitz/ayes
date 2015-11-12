@@ -26,6 +26,11 @@
     <%= f.text_field :published_at, class: 'form-control', id: 'datetimepicker4' %>
   </div>
 
+  <div class="form-group">
+    <%= f.label :region %>
+    <%= f.select :region, Question.region.values, {}, class: 'form-control' %>
+  </div>
+
   <%= f.label :tags %>
 
   <div class="form-group">
