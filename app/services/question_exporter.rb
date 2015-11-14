@@ -6,9 +6,13 @@ class QuestionExporter
       csv << ['id', 'birthdate'] + ATTRIBUTES + header_ids
 
       User.includes(:answers, :favorites).find_each do |user|
-        user.form_ids.each do |form_id|
-          form = Form.find(form_id)
-          csv << form_values(form, user)
+        if user.form_ids.any?
+          user.form_ids.each do |form_id|
+            form = Form.find(form_id)
+            csv << form_values(user, form)
+          end
+        else
+          csv << form_values(user)
         end
       end
     end
@@ -20,12 +24,13 @@ class QuestionExporter
     Question.ids.flat_map { |id| ["q#{id}", "fq#{id}"] }
   end
 
-  def form_values(form, user)
-    user_values(user) + question_values_for(user)
+  def form_values(user, form = nil)
+    user_values(user, form) + question_values_for(user)
   end
 
-  def user_values(user)
-    [user.id, user.birthdate] + user.attributes.values_at(*ATTRIBUTES)
+  def user_values(user, form = nil)
+    attributes = form ? form.attributes : user.attributes
+    [user.id, user.birthdate] + attributes.values_at(*ATTRIBUTES)
   end
 
   def question_values_for(user)
