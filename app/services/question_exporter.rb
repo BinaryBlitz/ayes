@@ -32,7 +32,7 @@ class QuestionExporter
     values = []
     Question.find_each do |question|
       answer = user.answers.find_by(question: question).try(:to_csv_value) || 'null'
-      favorite = user.favorites.find_by(question: question).present?
+      favorite = user.favorites.find_by(question: question) ? 1 : 0
       values += [answer, favorite]
     end
     values
