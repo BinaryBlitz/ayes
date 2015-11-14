@@ -17,6 +17,7 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  device_token   :string
+#  form_ids       :integer          is an Array
 #
 
 require 'test_helper'

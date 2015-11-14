@@ -17,6 +17,7 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  device_token   :string
+#  form_ids       :integer          is an Array
 #
 
 class User < ActiveRecord::Base
@@ -38,7 +39,12 @@ class User < ActiveRecord::Base
   end
 
   def form
-    Form.find_or_create_by(attributes_for_form)
+    return unless profile_complete?
+
+    form = Form.find_or_create_by(attributes_for_form)
+    self.form_ids << form.id unless form_ids.include?(form.id)
+    save
+    form
   end
 
   def attributes_for_form

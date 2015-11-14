@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'forms/index'
-
   root 'admin/questions#unpublished'
   devise_for :admins, path: 'admin', skip: :registrations
 
@@ -11,6 +9,12 @@ Rails.application.routes.draw do
     end
 
     resources :tags, except: [:show]
+    resources :exports, only: [:index] do
+      collection do
+        get 'questions'
+        get 'users'
+      end
+    end
   end
 
   resources :questions, only: [:index] do
