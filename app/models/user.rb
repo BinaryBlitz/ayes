@@ -20,7 +20,7 @@
 #
 
 class User < ActiveRecord::Base
-  ATTRIBUTES_FOR_FORM = %i(gender age occupation income education
+  ATTRIBUTES_FOR_FORM = %w(gender age occupation income education
     relationship country region settlement)
 
   has_secure_token :api_token
@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
   end
 
   def attributes_for_form
-    Hash[ATTRIBUTES_FOR_FORM.map { |arg| [arg, send(arg)] }]
+    attributes.slice(*ATTRIBUTES_FOR_FORM)
   end
 
   def profile_complete?
