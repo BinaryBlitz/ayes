@@ -34,7 +34,8 @@ class QuestionExporter
 
   def user_values(user, form = nil)
     attributes = form ? form.attributes : user.attributes
-    [user.id, user.birthdate] + attributes.values_at(*ATTRIBUTES)
+    values = [user.id, user.birthdate] + attributes.values_at(*ATTRIBUTES)
+    values.map { |value| value ? value : 'null' }
   end
 
   def question_values_for(user)
