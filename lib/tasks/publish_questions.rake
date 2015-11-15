@@ -16,6 +16,6 @@ namespace :questions do
   # FIXME: Publish instead of deleting
   task publish: :environment do
     question = Question.unpublished.order(position: :asc).first
-    question.destroy if question
+    question.publish(urgent: false) if question
   end
 end

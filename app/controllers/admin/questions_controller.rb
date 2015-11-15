@@ -35,18 +35,18 @@ class Admin::QuestionsController < Admin::AdminController
 
   def destroy
     @question.destroy
-    redirect_to unpublished_admin_questions_url, notice: 'Вопрос успешно удален.'
+    redirect_to :back, notice: 'Вопрос успешно удален.'
   end
 
   def publish
-    @question.publish
+    @question.publish(urgent: true)
     redirect_to published_admin_questions_url, notice: 'Вопрос успешно отправлен.'
   end
 
   def unpublished
     @questions = Question.unpublished
       .order(position: :asc)
-      .by_region(params[:region])
+      .by_region(region)
       .tagged(params[:tag])
       .page(params[:page])
       .search_by(search_params)

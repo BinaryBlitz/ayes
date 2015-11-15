@@ -22,6 +22,7 @@ class Question < ActiveRecord::Base
   validates :content, presence: true
   validates :region, presence: true
   validate :not_too_long
+  validate :published_later, on: :create
 
   accepts_nested_attributes_for :taggings, allow_destroy: true
 
@@ -56,10 +57,10 @@ class Question < ActiveRecord::Base
   end
 
   def self.by_country(country)
-    if country.blank? || country == 'RU'
-      where(region: 'russia')
-    else
+    if country == 'WORLD'
       where(region: 'world')
+    else
+      where(region: 'russia')
     end
   end
 
@@ -70,8 +71,8 @@ class Question < ActiveRecord::Base
     questions
   end
 
-  def publish
-    update(urgent: true, published_at: Time.zone.now)
+  def publish(urgent: false)
+    update(urgent: urgent, published_at: Time.zone.now)
     remove_from_list
     User.find_each(&:push_question)
   end
@@ -83,6 +84,14 @@ class Question < ActiveRecord::Base
 
     if content.length + epigraph.length > 200
       errors.add(:epigraph, 'is too long')
+    end
+  end
+
+  def published_later
+    return unless published_at.present?
+
+    if published_at < Time.zone.now
+      errors.add(:published_at, 'is earlier than today')
     end
   end
 end

@@ -5,7 +5,7 @@ module Questionable
     extend Enumerize
 
     enumerize :gender, in: [:male, :female]
-    enumerize :country, in: ISO3166::Data.codes
+    enumerize :country, in: ISO3166::Data.codes + ['WORLD']
     enumerize :region, in: ISO3166::Country.new('RU').subdivisions.keys
     enumerize :occupation,
               in: [
