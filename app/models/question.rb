@@ -39,14 +39,14 @@ class Question < ActiveRecord::Base
   # Вопросы на сегодня
   scope :for_today, -> { where(published_at: 1.day.ago..Time.zone.now) }
   # Следующий из очереди
-  scope :next, -> { unpublished.order(position: :asc).limit(1) }
+  # scope :next, -> { unpublished.order(position: :asc).limit(1) }
 
   scope :by_region, -> (region) { where(region: region) if region }
 
   acts_as_list
 
   def self.feed_for(current_user)
-    ids = Question.urgent.ids + Question.for_today.ids + Question.next.ids
+    ids = Question.urgent.ids + Question.for_today.ids
     Question.where(id: ids.uniq).by_country(current_user.country)
   end
 

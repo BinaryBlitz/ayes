@@ -34,7 +34,9 @@
           </ul>
         </li>
         <li><%= link_to 'Теги', admin_tags_path %></li>
+        <li><%= link_to 'Экспорт', admin_exports_path %></li>
       </ul>
+
       <ul class="nav navbar-nav navbar-right">
         <% if admin_signed_in? %>
           <li><%= link_to 'Выход', destroy_admin_session_path, method: :delete %></li>
