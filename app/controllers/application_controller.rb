@@ -23,6 +23,11 @@ class ApplicationController < ActionController::Base
   skip_before_action :restrict_access, if: :devise_controller?
   layout :set_layout
 
+  helper_method :region
+  def region
+    session[:region] || 'russia'
+  end
+
   protected
 
   def set_layout

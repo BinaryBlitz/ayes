@@ -46,7 +46,7 @@ class Admin::QuestionsController < Admin::AdminController
   def unpublished
     @questions = Question.unpublished
       .order(position: :asc)
-      .by_region(params[:region])
+      .by_region(region)
       .tagged(params[:tag])
       .page(params[:page])
       .search_by(search_params)
