@@ -35,7 +35,7 @@ class Admin::QuestionsController < Admin::AdminController
 
   def destroy
     @question.destroy
-    redirect_to unpublished_admin_questions_url, notice: 'Вопрос успешно удален.'
+    redirect_to :back, notice: 'Вопрос успешно удален.'
   end
 
   def publish
