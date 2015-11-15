@@ -23,7 +23,12 @@
 
   <div class="form-group">
     <%= f.label :publushed_at, 'Дата отправки' %>
-    <%= f.text_field :published_at, class: 'form-control', id: 'datetimepicker4' %>
+    <div class="input-group date" id="datetimepicker4">
+      <%= f.text_field :published_at, class: 'form-control', id: '' %>
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-calendar"></span>
+      </span>
+    </div>
   </div>
 
   <div class="form-group">

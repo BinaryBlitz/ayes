@@ -21,6 +21,11 @@
 
 $(document).on('ready page:load', function() {
   $('#datetimepicker4').datetimepicker({
-    format: 'YYYY-MM-DDTHH:mm:ss.SSSZZ'
+    format: 'YYYY-MM-DDTHH:mm:ss.SSSZZ',
+    // minDate: new Date(),
+    // showClose: true,
+    // showClear: true,
+    // showTodayButton: true,
+    sideBySide: true
   });
 });
