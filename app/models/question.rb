@@ -57,10 +57,10 @@ class Question < ActiveRecord::Base
   end
 
   def self.by_country(country)
-    if country.blank? || country == 'RU'
-      where(region: 'russia')
-    else
+    if country == 'WORLD'
       where(region: 'world')
+    else
+      where(region: 'russia')
     end
   end
 
