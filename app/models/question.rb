@@ -22,7 +22,7 @@ class Question < ActiveRecord::Base
   validates :content, presence: true
   validates :region, presence: true
   validate :not_too_long
-  validate :published_later
+  validate :published_later, on: :create
 
   accepts_nested_attributes_for :taggings, allow_destroy: true
 
@@ -71,8 +71,8 @@ class Question < ActiveRecord::Base
     questions
   end
 
-  def publish
-    update(urgent: true, published_at: Time.zone.now)
+  def publish(urgent: false)
+    update(urgent: urgent, published_at: Time.zone.now)
     remove_from_list
     User.find_each(&:push_question)
   end

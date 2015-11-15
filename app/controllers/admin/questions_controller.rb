@@ -39,7 +39,7 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def publish
-    @question.publish
+    @question.publish(urgent: true)
     redirect_to published_admin_questions_url, notice: 'Вопрос успешно отправлен.'
   end
 
