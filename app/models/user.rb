@@ -17,12 +17,17 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  device_token   :string
-#  form_ids       :integer          is an Array
+#  form_ids       :integer          default([]), is an Array
+#  form_id        :integer
 #
 
 class User < ActiveRecord::Base
   ATTRIBUTES_FOR_FORM = %w(gender age occupation income education
     relationship country region settlement)
+
+  before_save :assign_form
+
+  belongs_to :form
 
   has_secure_token :api_token
 
@@ -37,16 +42,7 @@ class User < ActiveRecord::Base
   def self.notify_all
     User.find_each(&:push_question)
   end
-
-  def form
-    return unless profile_complete?
-
-    form = Form.find_or_create_by(attributes_for_form)
-    self.form_ids << form.id unless form_ids.include?(form.id)
-    save
-    form
-  end
-
+  
   def attributes_for_form
     attributes.slice(*ATTRIBUTES_FOR_FORM)
   end
@@ -68,5 +64,13 @@ class User < ActiveRecord::Base
     age = Time.zone.today.year - birthdate.year
     age -= 1 if Time.zone.today < birthdate + age.years
     age
+  end
+
+  def assign_form
+    return unless profile_complete?
+
+    form = Form.find_or_create_by(attributes_for_form)
+    self.form_ids << form.id unless form_ids.include?(form.id)
+    self.form = form
   end
 end
