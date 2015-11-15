@@ -14,6 +14,9 @@ class Admin::ExportsController < Admin::AdminController
     end
   end
 
-  def users
+  def tags
+    respond_to do |format|
+      format.csv { send_data(TagExporter.new.export, filename: 'tags.csv') }
+    end
   end
 end

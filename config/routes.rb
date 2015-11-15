@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
     resources :tags, except: [:show]
     resources :exports, only: [:index] do
-      get 'questions', 'answers', 'users', on: :collection
+      get 'questions', 'answers', 'tags', on: :collection
     end
   end
 
