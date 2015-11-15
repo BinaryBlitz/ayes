@@ -6,7 +6,6 @@
 #  api_token      :string
 #  gender         :string
 #  birthdate      :date
-#  city           :string
 #  occupation     :string
 #  income         :string
 #  education      :string
@@ -18,6 +17,8 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  device_token   :string
+#  form_ids       :integer          default([]), is an Array
+#  form_id        :integer
 #
 
 require 'test_helper'

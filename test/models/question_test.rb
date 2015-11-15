@@ -10,12 +10,23 @@
 #  urgent       :boolean
 #  published_at :datetime
 #  position     :integer
+#  region       :string           default("russia")
 #
 
 require 'test_helper'
 
 class QuestionTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  setup do
+    @question = questions(:question)
+  end
+
+  test 'valid' do
+    assert @question.valid?
+  end
+
+  test 'content and epigraph are less than 200 chars' do
+    @question.content = 'a' * 200
+    @question.epigraph = 'a' * 200
+    assert @question.invalid?
+  end
 end

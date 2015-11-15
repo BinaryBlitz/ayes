@@ -1,5 +1,17 @@
 <h1>Пул заданных вопросов</h1>
 
+<div class="form-group">
+  <%= form_for :question, url: published_admin_questions_path, method: :get, html: { class: 'form-inline' } do %>
+    <div class="form-group">
+      <%= text_field_tag :content, nil, placeholder: 'Вопрос', class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= text_field_tag :id, nil, placeholder: 'Номер вопроса', class: 'form-control' %>
+    </div>
+    <%= submit_tag 'Поиск', class: 'form-control' %>
+  <% end %>
+</div>
+
 <table class="table">
   <thead>
     <th>id</th>
@@ -20,7 +32,6 @@
         </td>
         <td><%= question.published_at %></td>
         <td>
-          <%= link_to 'Изменить', edit_admin_question_path(question), class: 'btn btn-default' %>
           <%= link_to 'Удалить', [:admin, question], method: :delete, class: 'btn btn-danger', data: { confirm: 'Вы уверены?' } %>
         </td>
       </tr>

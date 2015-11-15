@@ -6,7 +6,6 @@
 #  api_token      :string
 #  gender         :string
 #  birthdate      :date
-#  city           :string
 #  occupation     :string
 #  income         :string
 #  education      :string
@@ -18,11 +17,17 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  device_token   :string
+#  form_ids       :integer          default([]), is an Array
+#  form_id        :integer
 #
 
 class User < ActiveRecord::Base
-  ATTRIBUTES_FOR_FORM = %i(gender age city occupation income education
+  ATTRIBUTES_FOR_FORM = %w(gender age occupation income education
     relationship country region settlement)
+
+  before_save :assign_form
+
+  belongs_to :form
 
   has_secure_token :api_token
 
@@ -38,16 +43,14 @@ class User < ActiveRecord::Base
     User.find_each(&:push_question)
   end
 
-  def form
-    Form.find_or_create_by(attributes_for_form)
-  end
-
   def attributes_for_form
-    Hash[ATTRIBUTES_FOR_FORM.map { |arg| [arg, send(arg)] }]
+    result = attributes.slice(*ATTRIBUTES_FOR_FORM)
+    result['age'] = age
+    result
   end
 
   def profile_complete?
-    [gender, birthdate, city, occupation, income, education, relationship,
+    [gender, birthdate, occupation, income, education, relationship,
       country, region, settlement].exclude?(nil)
   end
 
@@ -58,10 +61,18 @@ class User < ActiveRecord::Base
   private
 
   def age
-    return 0 unless birthdate
+    return unless birthdate
 
     age = Time.zone.today.year - birthdate.year
     age -= 1 if Time.zone.today < birthdate + age.years
     age
+  end
+
+  def assign_form
+    return unless profile_complete?
+
+    form = Form.find_or_create_by(attributes_for_form)
+    self.form_ids << form.id unless form.id && form_ids.include?(form.id)
+    self.form = form
   end
 end

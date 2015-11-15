@@ -13,6 +13,14 @@
 </div>
 
 <div class="form-group">
+  <strong>Регион: </strong> <%= @question.region %>
+</div>
+
+<div class="form-group">
+  <strong>Добавлено в избранное: </strong> <%= @question.favorites.count %>
+</div>
+
+<div class="form-group">
   <strong>Теги: </strong> <%= @question.tags.map(&:name).join(', ') %>
 </div>
 

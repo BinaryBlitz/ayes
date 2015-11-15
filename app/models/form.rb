@@ -5,7 +5,6 @@
 #  id           :integer          not null, primary key
 #  gender       :string
 #  age          :integer
-#  city         :string
 #  occupation   :string
 #  income       :string
 #  education    :string
@@ -22,13 +21,12 @@ class Form < ActiveRecord::Base
 
   validates :age, presence: true
   validates :gender, presence: true
-  validates :city, presence: true
   validates :occupation, presence: true
   validates :income, presence: true
   validates :education, presence: true
   validates :relationship, presence: true
   validates :country, presence: true
-  validates :region, presence: true
+  validates :region, presence: true, if: "country == 'RU'"
   validates :settlement, presence: true
 
   include Questionable

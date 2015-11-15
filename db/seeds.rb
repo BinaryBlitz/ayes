@@ -20,3 +20,17 @@ app.certificate = File.read(Rails.root.join('config', 'pushcert.pem'))
 app.environment = 'sandbox'
 app.connections = 1
 app.save!
+
+# Forms
+f = Form.create!(
+  age: 1,
+  gender: 'male',
+  city: 'Moscow',
+  occupation: 'worker',
+  income: 'none',
+  education: 'academic',
+  relationship: 'single',
+  country: 'RU',
+  region: 'MOW',
+  settlement: 'city',
+)

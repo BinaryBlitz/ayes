@@ -9,11 +9,17 @@ Rails.application.routes.draw do
     end
 
     resources :tags, except: [:show]
+    resources :exports, only: [:index] do
+      get 'questions', 'answers', 'tags', on: :collection
+    end
   end
 
   resources :questions, only: [:index] do
     resources :answers, only: [:create], shallow: true do
-      get 'similar', on: :collection
+      collection do
+        get 'similar'
+        post 'forms' => 'forms#index'
+      end
     end
   end
   resources :favorites, only: [:index, :create]

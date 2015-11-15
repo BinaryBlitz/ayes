@@ -44,15 +44,29 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def unpublished
-    @questions = Question.unpublished.order(position: :asc).tagged(params[:tag]).page(params[:page])
+    @questions = Question.unpublished
+      .order(position: :asc)
+      .by_region(params[:region])
+      .tagged(params[:tag])
+      .page(params[:page])
+      .search_by(search_params)
   end
 
   def scheduled
-    @questions = Question.scheduled.tagged(params[:tag]).page(params[:page])
+    @questions = Question.scheduled
+      .by_region(params[:region])
+      .tagged(params[:tag])
+      .page(params[:page])
+      .search_by(search_params)
   end
 
   def published
-    @questions = Question.published.order(published_at: :desc).tagged(params[:tag]).page(params[:page])
+    @questions = Question.published
+      .order(published_at: :desc)
+      .by_region(params[:region])
+      .tagged(params[:tag])
+      .page(params[:page])
+      .search_by(search_params)
   end
 
   def up
@@ -74,8 +88,12 @@ class Admin::QuestionsController < Admin::AdminController
   def question_params
     params.require(:question)
       .permit(
-        :epigraph, :content, :tag_list, :published_at,
+        :epigraph, :content, :tag_list, :published_at, :region,
         taggings_attributes: [:id, :tag_id, :_destroy]
       )
+  end
+
+  def search_params
+    params.permit(:id, :content).reject { |key, value| value.blank? }
   end
 end

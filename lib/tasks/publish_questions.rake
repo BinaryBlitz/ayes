@@ -13,6 +13,7 @@ namespace :questions do
   end
 
   # Publish one question each day
+  # FIXME: Publish instead of deleting
   task publish: :environment do
     question = Question.unpublished.order(position: :asc).first
     question.destroy if question

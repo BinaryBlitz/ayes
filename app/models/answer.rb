@@ -26,6 +26,15 @@ class Answer < ActiveRecord::Base
   scope :neutral, -> { where(value: nil) }
   scope :similar_to, -> (form) { where(form: form) }
 
+  def to_csv_value
+    case value
+    when false then '2'
+    when true then '1'
+    when nil then 'na'
+    else nil
+    end
+  end
+
   private
 
   def set_form
