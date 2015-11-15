@@ -22,6 +22,7 @@ class Question < ActiveRecord::Base
   validates :content, presence: true
   validates :region, presence: true
   validate :not_too_long
+  validate :published_later
 
   accepts_nested_attributes_for :taggings, allow_destroy: true
 
@@ -83,6 +84,14 @@ class Question < ActiveRecord::Base
 
     if content.length + epigraph.length > 200
       errors.add(:epigraph, 'is too long')
+    end
+  end
+
+  def published_later
+    return unless published_at.present?
+
+    if published_at < Time.zone.now
+      errors.add(:published_at, 'is earlier than today')
     end
   end
 end
