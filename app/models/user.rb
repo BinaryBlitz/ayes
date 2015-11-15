@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
     return unless profile_complete?
 
     form = Form.find_or_create_by(attributes_for_form)
-    self.form_ids << form.id unless form_ids.include?(form.id)
+    self.form_ids << form.id unless form.id && form_ids.include?(form.id)
     self.form = form
   end
 end
