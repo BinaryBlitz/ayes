@@ -1,4 +1,4 @@
-class QuestionExporter
+class AnswerExporter
   ATTRIBUTES = User::ATTRIBUTES_FOR_FORM - ['age']
 
   def export

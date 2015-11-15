@@ -4,7 +4,7 @@ class Admin::ExportsController < Admin::AdminController
 
   def questions
     respond_to do |format|
-      format.csv { send_data(QuestionExporter.new.export, filename: 'questions.csv') }
+      format.csv { send_data(AnswerExporter.new.export, filename: 'questions.csv') }
     end
   end
 
