@@ -42,9 +42,11 @@ class User < ActiveRecord::Base
   def self.notify_all
     User.find_each(&:push_question)
   end
-  
+
   def attributes_for_form
-    attributes.slice(*ATTRIBUTES_FOR_FORM)
+    result = attributes.slice(*ATTRIBUTES_FOR_FORM)
+    result['age'] = age
+    result
   end
 
   def profile_complete?
@@ -59,7 +61,7 @@ class User < ActiveRecord::Base
   private
 
   def age
-    return 0 unless birthdate
+    return unless birthdate
 
     age = Time.zone.today.year - birthdate.year
     age -= 1 if Time.zone.today < birthdate + age.years
