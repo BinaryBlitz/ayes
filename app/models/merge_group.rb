@@ -13,6 +13,7 @@ class MergeGroup < ActiveRecord::Base
   validates :field, presence: true
   validates :options, length: { minimum: 1 }
   validate :valid_field_options
+  validate :mutually_exclusive_options
 
   extend Enumerize
   enumerize :field, in: %w(gender occupation income age education relationship settlement)
@@ -28,5 +29,13 @@ class MergeGroup < ActiveRecord::Base
     return unless field
 
     errors.add(:options, 'are invalid') if (options - User.send(field).values).any?
+  end
+
+  def mutually_exclusive_options
+    return unless field && options
+
+    MergeGroup.where(field: field).each do |group|
+      errors.add(:options, 'intersect') if (group.options & options).any?
+    end
   end
 end
