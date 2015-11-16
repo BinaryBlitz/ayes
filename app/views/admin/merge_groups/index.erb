@@ -1,0 +1,22 @@
+<h1>Группы</h1>
+
+<div class="form-group">
+  <%= link_to 'Новая группа', new_admin_merge_group_path, class: 'btn btn-default' %>
+</div>
+
+<table class="table">
+  <thead>
+    <th>Поле</th>
+    <th>Опции</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <% @merge_groups.each do |group| %>
+      <tr>
+        <td><%= group.field %></td>
+        <td><%= group.options %></td>
+        <td>Actions</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

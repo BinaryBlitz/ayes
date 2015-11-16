@@ -1,0 +1,13 @@
+<h1>Новая группа</h1>
+
+<%= form_for [:admin, @merge_group] do |f| %>
+  <div class="form-group">
+    <%= f.label :field %>
+    <%= f.select :field, MergeGroup.field.values, {}, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :options %>
+    <%= f.select :options, merge_groups_select, {}, class: 'form-control' %> 
+  </div>
+<% end %>

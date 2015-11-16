@@ -17,6 +17,10 @@ class MergeGroup < ActiveRecord::Base
   extend Enumerize
   enumerize :field, in: %w(gender occupation income age education relationship settlement)
 
+  def self.options_for_form
+    (field.values - ['age']).map { |field| User.send(field).values }
+  end
+
   private
 
   # All options exist in the corresponding field
