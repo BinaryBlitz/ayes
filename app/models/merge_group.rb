@@ -10,13 +10,15 @@
 #
 
 class MergeGroup < ActiveRecord::Base
+  MERGE_ATTRIBUTES = %w(occupation income education relationship settlement)
+
   validates :field, presence: true
   validates :options, length: { minimum: 1 }
   validate :valid_field_options
   validate :mutually_exclusive_options
 
   extend Enumerize
-  enumerize :field, in: %w(gender occupation income age education relationship settlement)
+  enumerize :field, in: MERGE_ATTRIBUTES
 
   def self.options_for_form
     (field.values - ['age']).map { |field| User.send(field).values }

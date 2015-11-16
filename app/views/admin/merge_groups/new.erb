@@ -18,7 +18,7 @@
     <%= f.select :field, MergeGroup.field.values, {}, class: 'form-control' %>
   </div>
 
-  <% (MergeGroup.field.values - ['age']).each do |field| %>
+  <% MergeGroup::MERGE_ATTRIBUTES.each do |field| %>
     <strong><%= field %></strong>
 
     <% User.send(field).values.each do |value| %>
