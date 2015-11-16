@@ -3,6 +3,7 @@ ru:
     models:
       question: Вопрос
       tag: Тег
+      merge_group: Группа слияния
     attributes:
       question:
         content: Содержание
@@ -11,3 +12,6 @@ ru:
         region: Регион
       tag:
         name: Название
+      merge_group:
+        field: Поле
+        options: Параметры
