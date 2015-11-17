@@ -19,6 +19,7 @@ class Admin::QuestionsController < Admin::AdminController
     @question = Question.new(question_params)
 
     if @question.save
+      @question.publish(urgent: true) if params['commit'] = 'Отправить немедленно'
       redirect_to [:admin, @question], notice: 'Вопрос успешно создан.'
     else
       render :new
