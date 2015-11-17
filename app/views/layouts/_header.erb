@@ -16,11 +16,10 @@
         <li><%= link_to 'Вне очереди', scheduled_admin_questions_path %></li>
         <li><%= link_to 'Заданные', published_admin_questions_path %></li>
         <li><%= link_to 'Теги', admin_tags_path %></li>
-        <li><%= link_to 'Экспорт', admin_exports_path %></li>
-        <li><%= link_to 'Алгоритм', admin_merge_groups_path %></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to 'Настройки', admin_settings_path %></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= label_for_region(region) %> <span class="caret"></span></a>
           <ul class="dropdown-menu">

@@ -1,0 +1,29 @@
+<h1>Новый критерий</h1>
+
+<% if @shift_frame.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@shift_frame.errors.count, "error") %> prohibited this frame from being saved:</h2>
+
+    <ul>
+    <% @shift_frame.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_for [:admin, @shift_frame] do |f| %>
+  <div class="form-group">
+    <%= f.label :min_count %>
+    <%= f.number_field :min_count, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :delta %>
+    <%= f.number_field :delta, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit class: 'btn btn-default' %>
+  </div>
+<% end %>

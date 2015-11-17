@@ -1,0 +1,22 @@
+<h1>Критерии смены распределения</h1>
+
+<div class="form-group">
+  <%= link_to 'Новый критерий', new_admin_shift_frame_path, class: 'btn btn-default' %>
+</div>
+
+<table class="table">
+  <thead>
+    <th>Минимальное ответов</th>
+    <th>Дельта</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <% @shift_frames.each do |frame| %>
+      <tr>
+        <td><%= frame.min_count %></td>
+        <td><%= frame.delta %></td>
+        <td><%= link_to 'Удалить', [:admin, frame], method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-danger' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
