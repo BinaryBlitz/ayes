@@ -23,6 +23,6 @@ module Questionable
                 :higher, :vocational, :academic
               ]
     enumerize :relationship, in: [:single, :married, :divorced, :civil_union, :widow]
-    enumerize :settlement, in: [:village, :urban_village, :town, :city, :million_city]
+    enumerize :settlement, in: [:village, :urban_village, :town, :city, :million_city, :MOW, :SPE]
   end
 end
