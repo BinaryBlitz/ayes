@@ -12,5 +12,5 @@
 # Критерий для кардинальной смены распределения
 class ShiftFrame < ActiveRecord::Base
   validates :min_count, presence: true, uniqueness: true, numericality: { greater_than: 0 }
-  validates :delta, presence: true, numericality: { greater_than: 0.0 }
+  validates :delta, presence: true, inclusion: 0..1
 end

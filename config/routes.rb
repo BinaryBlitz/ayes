@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get 'questions', 'answers', 'tags', on: :collection
     end
     resources :merge_groups
+    resources :shift_frames, except: [:show, :edit]
   end
 
   resources :questions, only: [:index] do
