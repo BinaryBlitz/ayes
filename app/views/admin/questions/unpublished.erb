@@ -38,7 +38,7 @@
         <td>
           <%= link_to '↑', up_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
           <%= link_to '↓', down_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
-          <%= link_to 'Отправить', publish_admin_question_path(question), method: :patch, class: 'btn btn-default' %>
+          <%= link_to 'Отправить', publish_admin_question_path(question), method: :patch, class: 'btn btn-default', data: { confirm: 'Вы уверены?' } %>
         </td>
         <td>
           <%= link_to 'Изменить', edit_admin_question_path(question), class: 'btn btn-default' %>
