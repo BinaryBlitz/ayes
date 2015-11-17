@@ -9,6 +9,9 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  form_id     :integer
+#  yes_ratio   :float
+#  total_count :integer
+#  compared_at :datetime
 #
 
 class Answer < ActiveRecord::Base
@@ -47,11 +50,29 @@ class Answer < ActiveRecord::Base
     forms
   end
 
+  def significant_change?(question_ratio)
+    update_distribution and return unless yes_ratio
+    (question_ratio - yes_ratio).abs > min_delta
+  end
+
+  def update_distribution
+    update(
+      yes_ratio: question.yes_ratio,
+      total_count: question.answers.count,
+      compared_at: Time.zone.now
+    )
+  end
+
   private
 
   def set_form
     return unless user.profile_complete?
 
     self.form = Form.find_or_create_by(user.attributes_for_form)
+  end
+
+  # TODO: Implement
+  def min_delta
+    0.2
   end
 end

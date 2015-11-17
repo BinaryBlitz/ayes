@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20151117210011) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "form_id"
-    t.integer  "yes_ratio"
+    t.float    "yes_ratio"
     t.integer  "total_count"
     t.datetime "compared_at"
   end
