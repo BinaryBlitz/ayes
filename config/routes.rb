@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :exports, only: [:index] do
       get 'questions', 'answers', 'tags', on: :collection
     end
+    resources :merge_groups
   end
 
   resources :questions, only: [:index] do

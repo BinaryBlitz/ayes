@@ -24,7 +24,6 @@ class Answer < ActiveRecord::Base
   scope :positive, -> { where(value: true) }
   scope :negative, -> { where(value: false) }
   scope :neutral, -> { where(value: nil) }
-  scope :similar_to, -> (form) { where(form: form) }
 
   def to_csv_value
     case value
@@ -33,6 +32,19 @@ class Answer < ActiveRecord::Base
     when nil then 'na'
     else nil
     end
+  end
+
+  def self.similar_to(form)
+    forms = Form.where(age: form.age_range, gender: form.gender)
+
+    MergeGroup::MERGE_ATTRIBUTES.each do |attribute|
+      merge_group = MergeGroup.find_by(field: attribute)
+      next unless merge_group
+
+      forms = forms.where(attribute => merge_group.options)
+    end
+
+    forms
   end
 
   private

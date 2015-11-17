@@ -30,4 +30,8 @@ class Form < ActiveRecord::Base
   validates :settlement, presence: true
 
   include Questionable
+
+  def age_range
+    (age - 3)..(age + 3)
+  end
 end
