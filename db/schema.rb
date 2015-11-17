@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151114234850) do
+ActiveRecord::Schema.define(version: 20151117232743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,9 @@ ActiveRecord::Schema.define(version: 20151114234850) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "form_id"
+    t.float    "yes_ratio"
+    t.integer  "total_count"
+    t.datetime "compared_at"
   end
 
   add_index "answers", ["form_id"], name: "index_answers_on_form_id", using: :btree
@@ -69,6 +72,13 @@ ActiveRecord::Schema.define(version: 20151114234850) do
     t.string   "settlement"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+  end
+
+  create_table "merge_groups", force: :cascade do |t|
+    t.string   "field"
+    t.string   "options",    default: [],              array: true
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "questions", force: :cascade do |t|
@@ -140,6 +150,13 @@ ActiveRecord::Schema.define(version: 20151114234850) do
   end
 
   add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))", using: :btree
+
+  create_table "shift_frames", force: :cascade do |t|
+    t.integer  "min_count"
+    t.float    "delta"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"

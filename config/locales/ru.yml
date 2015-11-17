@@ -3,6 +3,8 @@ ru:
     models:
       question: Вопрос
       tag: Тег
+      merge_group: Группа слияния
+      shift_frame: Критерий
     attributes:
       question:
         content: Содержание
@@ -11,3 +13,9 @@ ru:
         region: Регион
       tag:
         name: Название
+      merge_group:
+        field: Поле
+        options: Параметры
+      shift_frame:
+        min_count: Минимальное количество ответов
+        delta: Дельта

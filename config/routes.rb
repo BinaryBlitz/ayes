@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   devise_for :admins, path: 'admin', skip: :registrations
 
   namespace :admin do
+    get 'settings' => 'settings#index'
+
     resources :questions do
       patch 'up', 'down', 'publish', on: :member
       get 'scheduled', 'published', 'unpublished', on: :collection
@@ -12,6 +14,8 @@ Rails.application.routes.draw do
     resources :exports, only: [:index] do
       get 'questions', 'answers', 'tags', on: :collection
     end
+    resources :merge_groups
+    resources :shift_frames, except: [:show, :edit]
   end
 
   resources :questions, only: [:index] do

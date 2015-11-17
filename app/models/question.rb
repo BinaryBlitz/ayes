@@ -16,6 +16,7 @@
 class Question < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :subscribers, through: :favorites, source: :user
   has_many :taggings, dependent: :destroy, inverse_of: :question
   has_many :tags, through: :taggings
 
@@ -71,10 +72,33 @@ class Question < ActiveRecord::Base
     questions
   end
 
+  # TODO: Query for questions with answers and favorites
+  def self.notify_distribution_changed
+    Question.joins(:answers).joins(:favorites).each(&:compare_distribution)
+  end
+
   def publish(urgent: false)
     update(urgent: urgent, published_at: Time.zone.now)
     remove_from_list
     User.find_each(&:push_question)
+  end
+
+  def compare_distribution
+    return unless yes_ratio
+
+    subscribers.each do |subscriber|
+      answer = subscriber.answers.find_by(question: self)
+
+      if answer.significant_change?(yes_ratio)
+        answer.update_distribution
+        subscriber.push_distribution_shift
+      end
+    end
+  end
+
+  def yes_ratio
+    return if answers.count == 0
+    answers.positive.count.to_f / answers.count.to_f
   end
 
   private

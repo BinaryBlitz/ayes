@@ -58,6 +58,10 @@ class User < ActiveRecord::Base
     Notifier.new(self, 'Новый вопрос!', message: 'NEW_QUESTION')
   end
 
+  def push_distribution_shift
+    Notifier.new(self, 'Изменение распределения вопроса.', message: 'DISTRIBUTION_SHIFT')
+  end
+
   private
 
   def age

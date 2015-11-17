@@ -53,5 +53,6 @@
 
   <div class="form-group">
     <%= f.submit class: 'btn btn-default' %>
+    <%= f.submit 'Отправить немедленно', class: 'btn btn-primary', data: { confirm: 'Вы уверены?' } %>
   </div>
 <% end %>

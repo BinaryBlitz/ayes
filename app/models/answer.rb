@@ -9,6 +9,9 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  form_id     :integer
+#  yes_ratio   :float
+#  total_count :integer
+#  compared_at :datetime
 #
 
 class Answer < ActiveRecord::Base
@@ -24,7 +27,6 @@ class Answer < ActiveRecord::Base
   scope :positive, -> { where(value: true) }
   scope :negative, -> { where(value: false) }
   scope :neutral, -> { where(value: nil) }
-  scope :similar_to, -> (form) { where(form: form) }
 
   def to_csv_value
     case value
@@ -35,11 +37,42 @@ class Answer < ActiveRecord::Base
     end
   end
 
+  def self.similar_to(form)
+    forms = Form.where(age: form.age_range, gender: form.gender)
+
+    MergeGroup::MERGE_ATTRIBUTES.each do |attribute|
+      merge_group = MergeGroup.find_by(field: attribute)
+      next unless merge_group
+
+      forms = forms.where(attribute => merge_group.options)
+    end
+
+    forms
+  end
+
+  def significant_change?(question_ratio)
+    update_distribution and return unless yes_ratio
+    (question_ratio - yes_ratio).abs > min_delta
+  end
+
+  def update_distribution
+    update(
+      yes_ratio: question.yes_ratio,
+      total_count: question.answers.count,
+      compared_at: Time.zone.now
+    )
+  end
+
   private
 
   def set_form
     return unless user.profile_complete?
 
     self.form = Form.find_or_create_by(user.attributes_for_form)
+  end
+
+  # TODO: Implement
+  def min_delta
+    0.2
   end
 end
