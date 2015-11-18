@@ -19,3 +19,7 @@ end
 every 1.hour do
   rake 'questions:push'
 end
+
+every 1.day do
+  runner 'Question.notify_distribution_changed'
+end
