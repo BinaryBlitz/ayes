@@ -55,9 +55,20 @@ class Question < ActiveRecord::Base
 
   acts_as_list
 
-  def self.feed_for(current_user)
-    ids = Question.urgent.ids + Question.for_today.ids
-    Question.where(id: ids.uniq).by_country(current_user.country)
+  def self.feed_for(user)
+    ids = untargeted.urgent.ids + untargeted.for_today.ids + targeted_for(user).ids
+    where(id: ids.uniq).by_country(user.country)
+  end
+
+  def self.targeted_for(user)
+    questions = Question.all
+    questions = questions.where("'#{user.gender}' = ANY(gender)") if user.gender
+    questions = questions.where("'#{user.occupation}' = ANY(occupation)") if user.occupation
+    questions = questions.where("'#{user.income}' = ANY(income)") if user.income
+    questions = questions.where("'#{user.education}' = ANY(education)") if user.education
+    questions = questions.where("'#{user.relationship}' = ANY(relationship)") if user.relationship
+    questions = questions.where("'#{user.settlement}' = ANY(settlement)") if user.settlement
+    questions
   end
 
   def self.tagged(tag)
@@ -71,6 +82,11 @@ class Question < ActiveRecord::Base
     else
       where(region: 'russia')
     end
+  end
+
+  def self.untargeted
+    where(gender: nil).where(occupation: nil).where(income: nil)
+      .where(education: nil).where(relationship: nil).where(settlement: nil)
   end
 
   def self.search_by(params)
