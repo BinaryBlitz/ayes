@@ -13,6 +13,7 @@ gem 'kaminari-i18n'
 gem 'rpush'
 gem 'acts_as_list'
 gem 'nested_form_fields'
+gem 'configurable_engine'
 
 # Auth
 gem 'has_secure_token'
