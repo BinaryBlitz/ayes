@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151118151010) do
+ActiveRecord::Schema.define(version: 20151118174823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,6 +99,12 @@ ActiveRecord::Schema.define(version: 20151118151010) do
     t.datetime "published_at"
     t.integer  "position"
     t.string   "region",       default: "russia"
+    t.string   "gender",                                       array: true
+    t.string   "occupation",                                   array: true
+    t.string   "income",                                       array: true
+    t.string   "education",                                    array: true
+    t.string   "relationship",                                 array: true
+    t.string   "settlement",                                   array: true
   end
 
   create_table "rpush_apps", force: :cascade do |t|

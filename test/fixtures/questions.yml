@@ -11,6 +11,12 @@
 #  published_at :datetime
 #  position     :integer
 #  region       :string           default("russia")
+#  gender       :string           is an Array
+#  occupation   :string           is an Array
+#  income       :string           is an Array
+#  education    :string           is an Array
+#  relationship :string           is an Array
+#  settlement   :string           is an Array
 #
 
 question:

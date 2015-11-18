@@ -11,6 +11,12 @@
 #  published_at :datetime
 #  position     :integer
 #  region       :string           default("russia")
+#  gender       :string           is an Array
+#  occupation   :string           is an Array
+#  income       :string           is an Array
+#  education    :string           is an Array
+#  relationship :string           is an Array
+#  settlement   :string           is an Array
 #
 
 class Question < ActiveRecord::Base
@@ -29,6 +35,8 @@ class Question < ActiveRecord::Base
 
   extend Enumerize
   enumerize :region, in: ['russia', 'world']
+
+  include Questionable
 
   # Пул заданных вопросов
   scope :published, -> { where('published_at <= ?', Time.zone.now) }

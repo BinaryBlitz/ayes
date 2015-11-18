@@ -40,6 +40,7 @@ class Answer < ActiveRecord::Base
   end
 
   def self.similar_to(form)
+    return none unless form
     forms = Form.where(age: form.age_range, gender: form.gender)
 
     MergeGroup::MERGE_ATTRIBUTES.each do |attribute|

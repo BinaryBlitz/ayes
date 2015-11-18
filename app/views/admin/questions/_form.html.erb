@@ -51,6 +51,52 @@
     <% end %>
   </div>
 
+  <h2>Анкета</h2>
+
+  <strong>Пол</strong>
+
+  <% Question.gender.values.each do |value| %>
+    <div class="checkbox">
+      <label>
+        <%= f.check_box :gender, { multiple: true }, value, nil %>
+        <%= value %>
+      </label>
+    </div>
+  <% end %>
+
+  <strong>Работа</strong>
+
+  <% Question.occupation.values.each do |value| %>
+    <div class="checkbox">
+      <label>
+        <%= f.check_box :occupation, { multiple: true }, value, nil %>
+        <%= value %>
+      </label>
+    </div>
+  <% end %>
+
+  <strong>Доход</strong>
+
+  <% Question.income.values.each do |value| %>
+    <div class="checkbox">
+      <label>
+        <%= f.check_box :income, { multiple: true }, value, nil %>
+        <%= value %>
+      </label>
+    </div>
+  <% end %>
+
+  <strong>Образование</strong>
+
+  <% Question.education.values.each do |value| %>
+    <div class="checkbox">
+      <label>
+        <%= f.check_box :education, { multiple: true }, value, nil %>
+        <%= value %>
+      </label>
+    </div>
+  <% end %>
+
   <div class="form-group">
     <%= f.submit class: 'btn btn-default' %>
     <%= f.submit 'Отправить немедленно', class: 'btn btn-primary', data: { confirm: 'Вы уверены?' } %>
