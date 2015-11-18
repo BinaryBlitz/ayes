@@ -28,6 +28,8 @@ class Answer < ActiveRecord::Base
   scope :negative, -> { where(value: false) }
   scope :neutral, -> { where(value: nil) }
 
+  DEFAULT_DELTA = 0.5
+
   def to_csv_value
     case value
     when false then '2'
@@ -71,8 +73,8 @@ class Answer < ActiveRecord::Base
     self.form = Form.find_or_create_by(user.attributes_for_form)
   end
 
-  # TODO: Implement
   def min_delta
-    0.2
+    frame = ShiftFrame.for_count(total_count).first
+    frame.try(:delta) || DEFAULT_DELTA
   end
 end
