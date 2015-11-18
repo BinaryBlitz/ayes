@@ -12,7 +12,7 @@
 #   runner "AnotherModel.prune_old_records"
 # end
 
-every 1.day do
+every 1.hour do
   rake 'questions:publish'
 end
 
