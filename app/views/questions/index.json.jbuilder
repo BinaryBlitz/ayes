@@ -1,5 +1,5 @@
 json.array!(@questions) do |question|
-  json.extract! question, :id, :epigraph, :content, :created_at
+  json.extract! question, :id, :epigraph, :content, :created_at, :published_at
 
   json.answered current_user.answers.find_by(question: question).present?
 
