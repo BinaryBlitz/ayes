@@ -2,23 +2,25 @@
 #
 # Table name: users
 #
-#  id             :integer          not null, primary key
-#  api_token      :string
-#  gender         :string
-#  birthdate      :date
-#  occupation     :string
-#  income         :string
-#  education      :string
-#  relationship   :string
-#  preferred_time :integer
-#  country        :string
-#  region         :string
-#  settlement     :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  device_token   :string
-#  form_ids       :integer          default([]), is an Array
-#  form_id        :integer
+#  id                               :integer          not null, primary key
+#  api_token                        :string
+#  gender                           :string
+#  birthdate                        :date
+#  occupation                       :string
+#  income                           :string
+#  education                        :string
+#  relationship                     :string
+#  preferred_time                   :integer
+#  country                          :string
+#  region                           :string
+#  settlement                       :string
+#  created_at                       :datetime         not null
+#  updated_at                       :datetime         not null
+#  device_token                     :string
+#  form_ids                         :integer          default([]), is an Array
+#  form_id                          :integer
+#  new_question_notifications       :boolean          default(TRUE)
+#  favorite_questions_notifications :boolean          default(TRUE)
 #
 
 class User < ActiveRecord::Base
@@ -55,10 +57,12 @@ class User < ActiveRecord::Base
   end
 
   def push_question
+    return unless new_question_notifications
     Notifier.new(self, 'Новый вопрос!', message: 'NEW_QUESTION')
   end
 
   def push_distribution_shift
+    return unless favorite_questions_notifications
     Notifier.new(self, 'Изменение распределения вопроса.', message: 'DISTRIBUTION_SHIFT')
   end
 

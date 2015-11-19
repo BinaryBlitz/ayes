@@ -40,7 +40,8 @@ class UsersController < ApplicationController
           .permit(
             :gender, :birthdate, :occupation,
             :income, :education, :relationship,
-            :settlement, :country, :region, :preferred_time, :device_token
+            :settlement, :country, :region, :preferred_time, :device_token,
+            :new_question_notifications, :favorite_questions_notifications
           )
   end
 end
