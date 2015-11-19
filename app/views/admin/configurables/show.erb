@@ -10,6 +10,9 @@
         <%- options = Configurable.defaults[key] -%>
         <div class="configurable">
           <%= label_tag key, options[:name] %>
+          <% if key  == 'publish_time' %>
+            <p>0 - 23 UTC. Любое другое значение, чтобы отключить отправку</p>
+          <% end %>
           <%- if options[:type] == 'boolean' %>
             <%= hidden_field_tag key, "0" %>
             <%= check_box_tag key, "1", Configurable.send(key) %>
