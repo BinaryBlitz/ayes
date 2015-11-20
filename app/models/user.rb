@@ -43,9 +43,9 @@ class User < ActiveRecord::Base
 
   def self.notify_all(question)
     if question.region == 'world'
-      users = User.where('country = WORLD OR country != RU')
+      users = User.where('country = ? OR country != ?', 'WORLD', 'RU')
     else
-      users = User.where('country = RU OR country IS NULL')
+      users = User.where('country = ? OR country IS NULL', 'RU')
     end
 
     users.find_each(&:push_question)

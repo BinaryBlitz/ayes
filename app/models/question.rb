@@ -104,7 +104,7 @@ class Question < ActiveRecord::Base
   def publish(urgent: false)
     update(urgent: urgent, published_at: Time.zone.now)
     remove_from_list
-    User.find_each(&:push_question)
+    User.notify_all(self)
   end
 
   def compare_distribution
