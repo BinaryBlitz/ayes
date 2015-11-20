@@ -50,7 +50,7 @@ class Answer < ActiveRecord::Base
       forms = forms.where(attribute => merge_group.options)
     end
 
-    forms
+    where(form: forms)
   end
 
   def significant_change?(question_ratio)
