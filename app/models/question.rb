@@ -85,8 +85,11 @@ class Question < ActiveRecord::Base
   end
 
   def self.untargeted
-    where(gender: nil).where(occupation: nil).where(income: nil)
-      .where(education: nil).where(relationship: nil).where(settlement: nil)
+    where("gender = '{}' OR gender IS NULL").where("occupation = '{}' OR occupation IS NULL")
+      .where("income = '{}' OR income IS NULL")
+      .where("education = '{}' OR education IS NULL")
+      .where("relationship = '{}' OR relationship IS NULL")
+      .where("settlement = '{}' OR settlement IS NULL")
   end
 
   def self.search_by(params)
