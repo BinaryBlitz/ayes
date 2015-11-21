@@ -125,7 +125,7 @@ class Question < ActiveRecord::Base
 
   def yes_ratio
     return if answers.count == 0
-    answers.positive.count.to_f / answers.count.to_f
+    answers.positive.count.to_f / answers.where.not(value: nil).count.to_f
   end
 
   private

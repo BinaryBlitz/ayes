@@ -15,6 +15,8 @@
 #
 
 class Answer < ActiveRecord::Base
+  after_create :update_distribution
+
   before_save :set_form
 
   belongs_to :user
@@ -28,7 +30,7 @@ class Answer < ActiveRecord::Base
   scope :negative, -> { where(value: false) }
   scope :neutral, -> { where(value: nil) }
 
-  DEFAULT_DELTA = 0.5
+  DEFAULT_DELTA = 0.25
 
   def to_csv_value
     case value
