@@ -39,7 +39,7 @@ class Answer < ActiveRecord::Base
     end
   end
 
-  def self.similar_to(form)
+  def self.similar_to(form, question)
     return none unless form
     forms = Form.where(age: form.age_range, gender: form.gender)
 
@@ -50,7 +50,7 @@ class Answer < ActiveRecord::Base
       forms = forms.where(attribute => merge_group.options)
     end
 
-    where(form: forms)
+    where(form: forms, question: question)
   end
 
   def significant_change?(question_ratio)
