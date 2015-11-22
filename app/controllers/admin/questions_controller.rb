@@ -46,6 +46,7 @@ class Admin::QuestionsController < Admin::AdminController
 
   def unpublished
     @questions = Question.unpublished
+      .includes(:tags)
       .order(position: :asc)
       .by_region(region)
       .tagged(params[:tag])
@@ -55,6 +56,7 @@ class Admin::QuestionsController < Admin::AdminController
 
   def scheduled
     @questions = Question.scheduled
+      .includes(:tags)
       .by_region(params[:region])
       .tagged(params[:tag])
       .page(params[:page])
@@ -63,6 +65,7 @@ class Admin::QuestionsController < Admin::AdminController
 
   def published
     @questions = Question.published
+      .includes(:tags)
       .order(published_at: :desc)
       .by_region(params[:region])
       .tagged(params[:tag])

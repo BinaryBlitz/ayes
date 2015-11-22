@@ -5,7 +5,7 @@ class QuestionExporter
       attributes = %w(id content region)
       csv << attributes + ['yes', 'no', 'na', 'favorites', 'tags']
 
-      Question.find_each do |question|
+      Question.includes(:tags).find_each do |question|
         csv << question.attributes.values_at(*attributes) + [
           question.answers.positive.count,
           question.answers.negative.count,
