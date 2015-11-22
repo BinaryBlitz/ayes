@@ -44,6 +44,7 @@ group :development do
   gem 'annotate'
   gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'bullet'
   gem 'capistrano'
   gem 'capistrano-ext'
   gem 'rvm-capistrano', require: false

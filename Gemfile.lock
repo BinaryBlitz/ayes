@@ -55,6 +55,9 @@ GEM
     bootstrap3-datetimepicker-rails (4.17.37)
       momentjs-rails (>= 2.8.1)
     builder (3.2.2)
+    bullet (4.14.10)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.9.0)
     byebug (8.2.0)
     capistrano (2.15.6)
       highline
@@ -213,6 +216,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    uniform_notifier (1.9.0)
     warden (1.2.3)
       rack (>= 1.0)
     web-console (2.2.1)
@@ -231,6 +235,7 @@ DEPENDENCIES
   annotate
   bootstrap-sass
   bootstrap3-datetimepicker-rails
+  bullet
   byebug
   capistrano
   capistrano-ext
