@@ -57,7 +57,7 @@ class Admin::QuestionsController < Admin::AdminController
   def scheduled
     @questions = Question.scheduled
       .includes(:tags)
-      .by_region(params[:region])
+      .by_region(region)
       .tagged(params[:tag])
       .page(params[:page])
       .search_by(search_params)
@@ -67,7 +67,7 @@ class Admin::QuestionsController < Admin::AdminController
     @questions = Question.published
       .includes(:tags)
       .order(published_at: :desc)
-      .by_region(params[:region])
+      .by_region(region)
       .tagged(params[:tag])
       .page(params[:page])
       .search_by(search_params)
