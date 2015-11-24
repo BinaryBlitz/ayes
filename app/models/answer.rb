@@ -72,8 +72,7 @@ class Answer < ActiveRecord::Base
 
   def set_form
     return unless user.profile_complete?
-
-    self.form = Form.find_or_create_by(user.attributes_for_form)
+    self.form = user.form
   end
 
   def min_delta
