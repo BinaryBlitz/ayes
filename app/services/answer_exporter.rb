@@ -2,14 +2,14 @@ class AnswerExporter
   ATTRIBUTES = User::ATTRIBUTES_FOR_FORM - ['age']
 
   def initialize
-    @questions = Question.joins(:answers).published
+    @questions = Question.joins(:answers).published.uniq
   end
 
   def export
     CSV.generate(headers: true) do |csv|
       csv << ['id', 'birthdate'] + ATTRIBUTES + header_ids
 
-      User.joins(:answers).find_each do |user|
+      User.joins(:answers).uniq.find_each do |user|
         row_for_user(user, csv)
       end
     end
