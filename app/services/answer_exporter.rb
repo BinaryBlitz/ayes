@@ -33,7 +33,7 @@ class AnswerExporter
   end
 
   def form_values(user, form = nil)
-    user_values(user, form) + question_values_for(user)
+    user_values(user, form) + question_values_for(user, form)
   end
 
   def user_values(user, form = nil)
@@ -42,10 +42,10 @@ class AnswerExporter
     values.map { |value| value ? value : 'null' }
   end
 
-  def question_values_for(user)
+  def question_values_for(user, form = nil)
     values = []
     @questions.find_each do |question|
-      answer = question.answers.find_by(user: user).try(:to_csv_value) || 'null'
+      answer = question.answers.find_by(user: user, form: form).try(:to_csv_value) || 'null'
       favorite = question.favorites.find_by(user: user) ? 1 : 0
       values += [answer, favorite]
     end
