@@ -128,6 +128,10 @@ class Question < ActiveRecord::Base
     answers.positive.count.to_f / answers.where.not(value: nil).count.to_f
   end
 
+  def published?
+    urgent || published_at && published_at < Time.zone.now
+  end
+
   private
 
   def not_too_long
