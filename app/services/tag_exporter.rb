@@ -3,7 +3,7 @@ class TagExporter
     CSV.generate(headers: true) do |csv|
       csv << ['id'] + Tag.pluck(:name)
 
-      User.find_each do |user|
+      User.joins(:answers, :favorites).uniq.find_each do |user|
         row = [user.id]
 
         Tag.find_each do |tag|
