@@ -18,13 +18,10 @@ class AnswerExporter
   private
 
   def row_for_user(user, csv)
-    if user.form_ids.any?
-      user.form_ids.each do |form_id|
-        form = Form.find(form_id)
-        csv << form_values(user, form)
-      end
-    else
-      csv << form_values(user)
+    csv << form_values(user) if user.answers.where(form: nil).any?
+    user.form_ids.each do |form_id|
+      form = Form.find(form_id)
+      csv << form_values(user, form)
     end
   end
 
