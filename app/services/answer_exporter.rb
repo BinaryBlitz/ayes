@@ -2,7 +2,7 @@ class AnswerExporter
   ATTRIBUTES = User::ATTRIBUTES_FOR_FORM - ['age']
 
   def initialize
-    @questions = Question.joins(:answers).published.uniq
+    @questions = Question.joins(:answers).order(id: :asc).published.uniq
   end
 
   def export
