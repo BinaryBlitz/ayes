@@ -61,14 +61,14 @@ class Question < ActiveRecord::Base
   end
 
   def self.targeted_for(user)
-    questions = Question.all
-    questions = questions.where("'#{user.gender}' = ANY(gender)") if user.gender
-    questions = questions.where("'#{user.occupation}' = ANY(occupation)") if user.occupation
-    questions = questions.where("'#{user.income}' = ANY(income)") if user.income
-    questions = questions.where("'#{user.education}' = ANY(education)") if user.education
-    questions = questions.where("'#{user.relationship}' = ANY(relationship)") if user.relationship
-    questions = questions.where("'#{user.settlement}' = ANY(settlement)") if user.settlement
-    questions
+    question_ids = []
+    question_ids += Question.where("'#{user.gender}' = ANY(gender)").ids if user.gender
+    question_ids += Question.where("'#{user.occupation}' = ANY(occupation)").ids if user.occupation
+    question_ids += Question.where("'#{user.income}' = ANY(income)").ids if user.income
+    question_ids += Question.where("'#{user.education}' = ANY(education)").ids if user.education
+    question_ids += Question.where("'#{user.relationship}' = ANY(relationship)").ids if user.relationship
+    question_ids += Question.where("'#{user.settlement}' = ANY(settlement)").ids if user.settlement
+    Question.where(id: question_ids.uniq)
   end
 
   def self.tagged(tag)
