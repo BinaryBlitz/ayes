@@ -61,14 +61,8 @@ class Question < ActiveRecord::Base
   end
 
   def self.targeted_for(user)
-    question_ids = []
-    question_ids += Question.where("'#{user.gender}' = ANY(gender)").ids if user.gender
-    question_ids += Question.where("'#{user.occupation}' = ANY(occupation)").ids if user.occupation
-    question_ids += Question.where("'#{user.income}' = ANY(income)").ids if user.income
-    question_ids += Question.where("'#{user.education}' = ANY(education)").ids if user.education
-    question_ids += Question.where("'#{user.relationship}' = ANY(relationship)").ids if user.relationship
-    question_ids += Question.where("'#{user.settlement}' = ANY(settlement)").ids if user.settlement
-    Question.where(id: question_ids.uniq)
+    attributes = MergeGroup::MERGE_ATTRIBUTES.map { |attribute| [attribute, user.send(attribute)] }.compact.to_h
+    Question.where(attributes)
   end
 
   def self.tagged(tag)
