@@ -99,7 +99,6 @@ class Question < ActiveRecord::Base
     questions
   end
 
-  # TODO: Query for questions with answers and favorites
   def self.notify_distribution_changed
     Question.joins(:answers).joins(:favorites).each(&:compare_distribution)
   end

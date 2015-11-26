@@ -46,7 +46,7 @@ class Answer < ActiveRecord::Base
     forms = Form.where(age: form.age_range, gender: form.gender)
 
     MergeGroup::MERGE_ATTRIBUTES.each do |attribute|
-      merge_group = MergeGroup.find_by(field: attribute)
+      merge_group = MergeGroup.find_by("field = '#{attribute}' AND '#{form.send(attribute)}' = ANY(options)")
       next unless merge_group
 
       forms = forms.where(attribute => merge_group.options)
