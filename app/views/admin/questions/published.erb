@@ -27,7 +27,7 @@
         <td><%= link_to question.content, [:admin, question] %></td>
         <td>
           <% question.tags.each do |tag| %>
-            <%= link_to tag, unpublished_admin_questions_path(tag: tag.name) %>
+            <%= link_to tag, tag: tag.name %>
           <% end %>
         </td>
         <td><%= question.published_at %></td>

@@ -2,10 +2,11 @@ class FormsController < ApplicationController
   before_action :set_question
 
   def index
+    question = Question.find(params[:question_id])
     forms = Form.where(form_params).includes(:answers)
     answer_ids = []
     forms.find_each { |f| answer_ids << f.answer_ids }
-    @answers = Answer.where(id: answer_ids.flatten.uniq)
+    @answers = Answer.where(id: answer_ids.flatten.uniq, question: question)
   end
 
   private

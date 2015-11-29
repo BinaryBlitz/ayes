@@ -15,6 +15,8 @@
 #
 
 class Answer < ActiveRecord::Base
+  after_create :update_distribution
+
   before_save :set_form
 
   belongs_to :user
@@ -28,6 +30,8 @@ class Answer < ActiveRecord::Base
   scope :negative, -> { where(value: false) }
   scope :neutral, -> { where(value: nil) }
 
+  DEFAULT_DELTA = 0.25
+
   def to_csv_value
     case value
     when false then '2'
@@ -37,17 +41,18 @@ class Answer < ActiveRecord::Base
     end
   end
 
-  def self.similar_to(form)
+  def self.similar_to(form, question)
+    return none unless form
     forms = Form.where(age: form.age_range, gender: form.gender)
 
     MergeGroup::MERGE_ATTRIBUTES.each do |attribute|
-      merge_group = MergeGroup.find_by(field: attribute)
+      merge_group = MergeGroup.find_by("field = '#{attribute}' AND '#{form.send(attribute)}' = ANY(options)")
       next unless merge_group
 
       forms = forms.where(attribute => merge_group.options)
     end
 
-    forms
+    where(form: forms, question: question)
   end
 
   def significant_change?(question_ratio)
@@ -67,12 +72,11 @@ class Answer < ActiveRecord::Base
 
   def set_form
     return unless user.profile_complete?
-
-    self.form = Form.find_or_create_by(user.attributes_for_form)
+    self.form = user.form
   end
 
-  # TODO: Implement
   def min_delta
-    0.2
+    frame = ShiftFrame.for_count(total_count).first
+    frame.try(:delta) || DEFAULT_DELTA
   end
 end

@@ -12,10 +12,14 @@
 #   runner "AnotherModel.prune_old_records"
 # end
 
-every 1.day do
+every 1.hour do
   rake 'questions:publish'
 end
 
 every 1.hour do
   rake 'questions:push'
+end
+
+every 1.day do
+  runner 'Question.notify_distribution_changed'
 end

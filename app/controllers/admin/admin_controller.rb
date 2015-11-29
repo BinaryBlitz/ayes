@@ -4,6 +4,7 @@ class Admin::AdminController < ActionController::Base
 
   before_action :set_region
   def set_region
+    return unless params[:region].present? #session[:region].present?
     session[:region] = params[:region]
   end
 

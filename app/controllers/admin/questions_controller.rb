@@ -46,6 +46,7 @@ class Admin::QuestionsController < Admin::AdminController
 
   def unpublished
     @questions = Question.unpublished
+      .includes(:tags)
       .order(position: :asc)
       .by_region(region)
       .tagged(params[:tag])
@@ -55,7 +56,8 @@ class Admin::QuestionsController < Admin::AdminController
 
   def scheduled
     @questions = Question.scheduled
-      .by_region(params[:region])
+      .includes(:tags)
+      .by_region(region)
       .tagged(params[:tag])
       .page(params[:page])
       .search_by(search_params)
@@ -63,8 +65,9 @@ class Admin::QuestionsController < Admin::AdminController
 
   def published
     @questions = Question.published
+      .includes(:tags)
       .order(published_at: :desc)
-      .by_region(params[:region])
+      .by_region(region)
       .tagged(params[:tag])
       .page(params[:page])
       .search_by(search_params)
@@ -90,7 +93,8 @@ class Admin::QuestionsController < Admin::AdminController
     params.require(:question)
       .permit(
         :epigraph, :content, :tag_list, :published_at, :region,
-        taggings_attributes: [:id, :tag_id, :_destroy]
+        gender: [], occupation: [], income: [], education: [], relationship: [], settlement: [],
+        taggings_attributes: [:id, :tag_id, :_destroy],
       )
   end
 

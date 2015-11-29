@@ -11,6 +11,12 @@
 #  published_at :datetime
 #  position     :integer
 #  region       :string           default("russia")
+#  gender       :string           is an Array
+#  occupation   :string           is an Array
+#  income       :string           is an Array
+#  education    :string           is an Array
+#  relationship :string           is an Array
+#  settlement   :string           is an Array
 #
 
 class Question < ActiveRecord::Base
@@ -30,6 +36,8 @@ class Question < ActiveRecord::Base
   extend Enumerize
   enumerize :region, in: ['russia', 'world']
 
+  include Questionable
+
   # Пул заданных вопросов
   scope :published, -> { where('published_at <= ?', Time.zone.now) }
   # Пул незаданных вопросов
@@ -47,9 +55,14 @@ class Question < ActiveRecord::Base
 
   acts_as_list
 
-  def self.feed_for(current_user)
-    ids = Question.urgent.ids + Question.for_today.ids
-    Question.where(id: ids.uniq).by_country(current_user.country)
+  def self.feed_for(user)
+    ids = untargeted.urgent.ids + untargeted.for_today.ids + targeted_for(user).ids
+    where(id: ids.uniq).by_country(user.country)
+  end
+
+  def self.targeted_for(user)
+    attributes = MergeGroup::MERGE_ATTRIBUTES.map { |attribute| [attribute, user.send(attribute)] }.compact.to_h
+    Question.where(attributes)
   end
 
   def self.tagged(tag)
@@ -65,6 +78,14 @@ class Question < ActiveRecord::Base
     end
   end
 
+  def self.untargeted
+    where("gender = '{}' OR gender IS NULL").where("occupation = '{}' OR occupation IS NULL")
+      .where("income = '{}' OR income IS NULL")
+      .where("education = '{}' OR education IS NULL")
+      .where("relationship = '{}' OR relationship IS NULL")
+      .where("settlement = '{}' OR settlement IS NULL")
+  end
+
   def self.search_by(params)
     questions = Question.all
     questions = questions.where(id: params[:id]) if params[:id].present?
@@ -72,7 +93,6 @@ class Question < ActiveRecord::Base
     questions
   end
 
-  # TODO: Query for questions with answers and favorites
   def self.notify_distribution_changed
     Question.joins(:answers).joins(:favorites).each(&:compare_distribution)
   end
@@ -80,7 +100,7 @@ class Question < ActiveRecord::Base
   def publish(urgent: false)
     update(urgent: urgent, published_at: Time.zone.now)
     remove_from_list
-    User.find_each(&:push_question)
+    User.notify_all(self)
   end
 
   def compare_distribution
@@ -98,7 +118,11 @@ class Question < ActiveRecord::Base
 
   def yes_ratio
     return if answers.count == 0
-    answers.positive.count.to_f / answers.count.to_f
+    answers.positive.count.to_f / answers.where.not(value: nil).count.to_f
+  end
+
+  def published?
+    urgent || published_at && published_at < Time.zone.now
   end
 
   private

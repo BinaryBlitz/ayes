@@ -12,7 +12,8 @@ class AnswersController < ApplicationController
   end
 
   def similar
-    @answers = Answer.similar_to(current_user.form)
+    question = Question.find(params[:question_id])
+    @answers = Answer.similar_to(current_user.form, question)
   end
 
   private

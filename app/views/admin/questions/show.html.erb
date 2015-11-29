@@ -1,8 +1,10 @@
 <h1>Вопрос №<%= @question.id %></h1>
 
-<div class="form-group">
-  <%= link_to 'Изменить', edit_admin_question_path(@question), class: 'btn btn-default' %>
-</div>
+<% unless @question.published? %>
+  <div class="form-group">
+    <%= link_to 'Изменить', edit_admin_question_path(@question), class: 'btn btn-default' %>
+  </div>
+<% end %>
 
 <div class="form-group">
   <strong>Содержание: </strong> <%= @question.content %>

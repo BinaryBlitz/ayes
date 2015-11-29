@@ -13,6 +13,7 @@ gem 'kaminari-i18n'
 gem 'rpush'
 gem 'acts_as_list'
 gem 'nested_form_fields'
+gem 'configurable_engine'
 
 # Auth
 gem 'has_secure_token'
@@ -22,9 +23,9 @@ gem 'devise-i18n-views'
 gem 'devise-bootstrap-views'
 
 # Front end
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
+gem 'sass-rails'
+gem 'uglifier'
+gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'bootstrap-sass'
@@ -41,8 +42,9 @@ end
 
 group :development do
   gem 'annotate'
-  gem 'web-console', '~> 2.0'
+  gem 'web-console'
   gem 'spring'
+  gem 'bullet'
   gem 'capistrano'
   gem 'capistrano-ext'
   gem 'rvm-capistrano', require: false

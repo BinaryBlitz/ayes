@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151117232743) do
+ActiveRecord::Schema.define(version: 20151119160736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,15 @@ ActiveRecord::Schema.define(version: 20151117232743) do
   add_index "answers", ["form_id"], name: "index_answers_on_form_id", using: :btree
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
   add_index "answers", ["user_id"], name: "index_answers_on_user_id", using: :btree
+
+  create_table "configurables", force: :cascade do |t|
+    t.string   "name"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "configurables", ["name"], name: "index_configurables_on_name", using: :btree
 
   create_table "favorites", force: :cascade do |t|
     t.integer  "user_id"
@@ -90,6 +99,12 @@ ActiveRecord::Schema.define(version: 20151117232743) do
     t.datetime "published_at"
     t.integer  "position"
     t.string   "region",       default: "russia"
+    t.string   "gender",                                       array: true
+    t.string   "occupation",                                   array: true
+    t.string   "income",                                       array: true
+    t.string   "education",                                    array: true
+    t.string   "relationship",                                 array: true
+    t.string   "settlement",                                   array: true
   end
 
   create_table "rpush_apps", force: :cascade do |t|
@@ -188,11 +203,13 @@ ActiveRecord::Schema.define(version: 20151117232743) do
     t.string   "country"
     t.string   "region"
     t.string   "settlement"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.string   "device_token"
-    t.integer  "form_ids",       default: [],              array: true
+    t.integer  "form_ids",                         default: [],                array: true
     t.integer  "form_id"
+    t.boolean  "new_question_notifications",       default: true
+    t.boolean  "favorite_questions_notifications", default: true
   end
 
   add_index "users", ["form_id"], name: "index_users_on_form_id", using: :btree

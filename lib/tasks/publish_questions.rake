@@ -15,6 +15,7 @@ namespace :questions do
   # Publish one question each day
   # FIXME: Publish instead of deleting
   task publish: :environment do
+    next unless Configurable.publish_time == Time.zone.now.hour
     question = Question.unpublished.order(position: :asc).first
     question.publish(urgent: false) if question
   end

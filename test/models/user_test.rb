@@ -2,23 +2,25 @@
 #
 # Table name: users
 #
-#  id             :integer          not null, primary key
-#  api_token      :string
-#  gender         :string
-#  birthdate      :date
-#  occupation     :string
-#  income         :string
-#  education      :string
-#  relationship   :string
-#  preferred_time :integer
-#  country        :string
-#  region         :string
-#  settlement     :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  device_token   :string
-#  form_ids       :integer          default([]), is an Array
-#  form_id        :integer
+#  id                               :integer          not null, primary key
+#  api_token                        :string
+#  gender                           :string
+#  birthdate                        :date
+#  occupation                       :string
+#  income                           :string
+#  education                        :string
+#  relationship                     :string
+#  preferred_time                   :integer
+#  country                          :string
+#  region                           :string
+#  settlement                       :string
+#  created_at                       :datetime         not null
+#  updated_at                       :datetime         not null
+#  device_token                     :string
+#  form_ids                         :integer          default([]), is an Array
+#  form_id                          :integer
+#  new_question_notifications       :boolean          default(TRUE)
+#  favorite_questions_notifications :boolean          default(TRUE)
 #
 
 require 'test_helper'
