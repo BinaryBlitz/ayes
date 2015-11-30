@@ -41,14 +41,17 @@ class User < ActiveRecord::Base
 
   include Questionable
 
-  def self.notify_all(question)
-    if question.region == 'world'
-      users = User.where('country = ? OR country != ?', 'WORLD', 'RU')
-    else
-      users = User.where('country = ? OR country IS NULL', 'RU')
-    end
+  scope :world, -> { where("country = 'WORLD' OR country != 'RU'") }
+  scope :russia, -> { where("country = 'RU' OR country IS NULL") }
 
-    users.find_each(&:push_question)
+  def self.notify_all(question)
+    for_question(question).find_each(&:push_question)
+  end
+
+  def self.for_question(question)
+    users = question.region.world? ? world : russia
+    users = users.where(question.target_attributes) if question.targeted?
+    users
   end
 
   def attributes_for_form

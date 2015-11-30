@@ -20,6 +20,8 @@
 #
 
 class Question < ActiveRecord::Base
+  TARGET_ATTRIBUTES = %w(gender occupation income education relationship settlement)
+
   has_many :answers, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :subscribers, through: :favorites, source: :user
@@ -62,7 +64,7 @@ class Question < ActiveRecord::Base
 
   def self.targeted_for(user)
     questions = Question.all
-    MergeGroup::MERGE_ATTRIBUTES.each do |attribute|
+    TARGET_ATTRIBUTES.each do |attribute|
       value = user.send(attribute)
       next unless value
       questions = questions.where("'#{value}' = ANY(#{attribute}) OR #{attribute} = '{}'")
@@ -129,6 +131,17 @@ class Question < ActiveRecord::Base
 
   def published?
     urgent || published_at && published_at < Time.zone.now
+  end
+
+  def target_attributes
+    attributes.slice(*TARGET_ATTRIBUTES).select { |_, attribute| attribute.any? }
+  end
+
+  def targeted?
+    TARGET_ATTRIBUTES.each do |attribute|
+      return true if send(attribute).any?
+    end
+    false
   end
 
   private
