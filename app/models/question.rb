@@ -61,8 +61,14 @@ class Question < ActiveRecord::Base
   end
 
   def self.targeted_for(user)
-    attributes = MergeGroup::MERGE_ATTRIBUTES.map { |attribute| [attribute, user.send(attribute)] }.compact.to_h
-    Question.where(attributes)
+    questions = Question.all
+    MergeGroup::MERGE_ATTRIBUTES.each do |attribute|
+      value = user.send(attribute)
+      next unless value
+      questions = questions.where("'#{value}' = ANY(#{attribute}) OR #{attribute} = '{}'")
+    end
+    ids = questions.ids - untargeted.ids
+    where(id: ids).published
   end
 
   def self.tagged(tag)
