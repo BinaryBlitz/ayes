@@ -32,6 +32,10 @@ class Form < ActiveRecord::Base
   include Questionable
 
   def age_range
-    (age - 3)..(age + 3)
+    if age <= 18
+      0..18
+    else
+      (age - 3)..(age + 3)
+    end
   end
 end
