@@ -11,6 +11,8 @@ ru:
         epigraph: Эпиграф
         tags: Теги
         region: Регион
+        min_age: Минимальный возраст
+        max_age: Максимальный возраст
       tag:
         name: Название
       merge_group:

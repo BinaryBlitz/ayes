@@ -50,8 +50,22 @@ class User < ActiveRecord::Base
 
   def self.for_question(question)
     users = question.region.world? ? world : russia
-    users = users.where(question.target_attributes) if question.targeted?
+    users = users.where(target_attributes(question)) if question.targeted?
     users
+  end
+
+  def self.target_attributes(question)
+    target_attributes = question.target_attributes
+
+    if target_attributes['age'].try(:any?)
+      now = Time.zone.now
+      from = now - target_attributes['age'].max.years
+      to = now - target_attributes['age'].min.years
+      target_attributes['birthdate'] = from..to
+      target_attributes.delete('age')
+    end
+
+    target_attributes
   end
 
   def attributes_for_form

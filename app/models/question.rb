@@ -20,7 +20,11 @@
 #
 
 class Question < ActiveRecord::Base
-  TARGET_ATTRIBUTES = %w(gender occupation income education relationship settlement)
+  TARGET_ATTRIBUTES = %w(age gender occupation income education relationship settlement)
+
+  before_validation :set_age
+
+  attr_accessor :min_age, :max_age
 
   has_many :answers, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -30,6 +34,8 @@ class Question < ActiveRecord::Base
 
   validates :content, presence: true
   validates :region, presence: true
+  validates :min_age, numericality: { greater_than: 0 }, allow_blank: true
+  validates :max_age, numericality: { greater_than: :min_age }, allow_blank: true
   validate :not_too_long
   validate :published_later, on: :create
 
@@ -67,7 +73,8 @@ class Question < ActiveRecord::Base
     TARGET_ATTRIBUTES.each do |attribute|
       value = user.send(attribute)
       next unless value
-      questions = questions.where("'#{value}' = ANY(#{attribute}) OR #{attribute} = '{}'")
+      value = value.is_a?(Integer) ? value : "'#{value}'"
+      questions = questions.where("#{value} = ANY(#{attribute}) OR #{attribute} = '{}'")
     end
     ids = questions.ids - untargeted.ids
     where(id: ids).published
@@ -160,5 +167,11 @@ class Question < ActiveRecord::Base
     if published_at < Time.zone.now
       errors.add(:published_at, 'is earlier than today')
     end
+  end
+
+  def set_age
+    self.min_age = min_age.to_i if min_age
+    self.max_age = max_age.to_i if max_age
+    self.age = (min_age..max_age).to_a if min_age && max_age
   end
 end
