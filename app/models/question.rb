@@ -126,7 +126,7 @@ class Question < ActiveRecord::Base
 
       if answer.significant_change?(yes_ratio)
         answer.update_distribution
-        subscriber.push_distribution_shift
+        subscriber.push_distribution_shift(answer.question_id)
       end
     end
   end

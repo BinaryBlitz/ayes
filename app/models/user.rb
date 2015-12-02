@@ -84,9 +84,9 @@ class User < ActiveRecord::Base
     Notifier.new(self, 'Новый вопрос!', message: 'NEW_QUESTION')
   end
 
-  def push_distribution_shift
+  def push_distribution_shift(question_id)
     return unless favorite_questions_notifications
-    Notifier.new(self, 'Изменение распределения вопроса.', message: 'DISTRIBUTION_SHIFT')
+    Notifier.new(self, "Значительно изменилось распределение ответов на вопрос №#{question_id}", message: 'DISTRIBUTION_SHIFT')
   end
 
   private
