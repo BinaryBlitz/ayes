@@ -93,7 +93,9 @@ class Admin::QuestionsController < Admin::AdminController
     params.require(:question)
       .permit(
         :epigraph, :content, :tag_list, :published_at, :region,
-        gender: [], occupation: [], income: [], education: [], relationship: [], settlement: [],
+        :min_age, :max_age,
+        gender: [], occupation: [], income: [],
+        education: [], relationship: [], settlement: [],
         taggings_attributes: [:id, :tag_id, :_destroy],
       )
   end

@@ -20,6 +20,12 @@
 #
 
 class Question < ActiveRecord::Base
+  TARGET_ATTRIBUTES = %w(age gender occupation income education relationship settlement)
+
+  before_validation :set_age
+
+  attr_accessor :min_age, :max_age
+
   has_many :answers, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :subscribers, through: :favorites, source: :user
@@ -28,6 +34,8 @@ class Question < ActiveRecord::Base
 
   validates :content, presence: true
   validates :region, presence: true
+  validates :min_age, numericality: { greater_than: 0 }, allow_blank: true
+  validates :max_age, numericality: { greater_than: :min_age }, allow_blank: true
   validate :not_too_long
   validate :published_later, on: :create
 
@@ -61,8 +69,15 @@ class Question < ActiveRecord::Base
   end
 
   def self.targeted_for(user)
-    attributes = MergeGroup::MERGE_ATTRIBUTES.map { |attribute| [attribute, user.send(attribute)] }.compact.to_h
-    Question.where(attributes)
+    questions = Question.all
+    TARGET_ATTRIBUTES.each do |attribute|
+      value = user.send(attribute)
+      next unless value
+      value = value.is_a?(Integer) ? value : "'#{value}'"
+      questions = questions.where("#{value} = ANY(#{attribute}) OR #{attribute} = '{}'")
+    end
+    ids = questions.ids - untargeted.ids
+    where(id: ids).published
   end
 
   def self.tagged(tag)
@@ -111,7 +126,7 @@ class Question < ActiveRecord::Base
 
       if answer.significant_change?(yes_ratio)
         answer.update_distribution
-        subscriber.push_distribution_shift
+        subscriber.push_distribution_shift(answer.question_id)
       end
     end
   end
@@ -123,6 +138,17 @@ class Question < ActiveRecord::Base
 
   def published?
     urgent || published_at && published_at < Time.zone.now
+  end
+
+  def target_attributes
+    attributes.slice(*TARGET_ATTRIBUTES).select { |_, attribute| attribute.any? }
+  end
+
+  def targeted?
+    TARGET_ATTRIBUTES.each do |attribute|
+      return true if send(attribute).any?
+    end
+    false
   end
 
   private
@@ -141,5 +167,11 @@ class Question < ActiveRecord::Base
     if published_at < Time.zone.now
       errors.add(:published_at, 'is earlier than today')
     end
+  end
+
+  def set_age
+    self.min_age = min_age.to_i if min_age
+    self.max_age = max_age.to_i if max_age
+    self.age = (min_age..max_age).to_a if min_age && max_age
   end
 end

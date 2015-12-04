@@ -34,8 +34,13 @@ class AnswerExporter
   end
 
   def user_values(user, form = nil)
-    attributes = form ? form.attributes : user.attributes
-    values = [user.id, user.birthdate] + attributes.values_at(*ATTRIBUTES)
+    if form
+      values = [user.id, user.birthdate] + form.attributes.values_at(*ATTRIBUTES)
+    else
+      values = [user.id, nil] + ATTRIBUTES.map { |_| nil }
+    end
+    # attributes = form ? form.attributes : user.attributes
+    # values = [user.id, user.birthdate] + attributes.values_at(*ATTRIBUTES)
     values.map { |value| value ? value : 'null' }
   end
 

@@ -41,14 +41,31 @@ class User < ActiveRecord::Base
 
   include Questionable
 
+  scope :world, -> { where("country = 'WORLD' OR country != 'RU'") }
+  scope :russia, -> { where("country = 'RU' OR country IS NULL") }
+
   def self.notify_all(question)
-    if question.region == 'world'
-      users = User.where('country = ? OR country != ?', 'WORLD', 'RU')
-    else
-      users = User.where('country = ? OR country IS NULL', 'RU')
+    for_question(question).find_each(&:push_question)
+  end
+
+  def self.for_question(question)
+    users = question.region.world? ? world : russia
+    users = users.where(target_attributes(question)) if question.targeted?
+    users
+  end
+
+  def self.target_attributes(question)
+    target_attributes = question.target_attributes
+
+    if target_attributes['age'].try(:any?)
+      now = Time.zone.now
+      from = now - target_attributes['age'].max.years
+      to = now - target_attributes['age'].min.years
+      target_attributes['birthdate'] = from..to
+      target_attributes.delete('age')
     end
 
-    users.find_each(&:push_question)
+    target_attributes
   end
 
   def attributes_for_form
@@ -67,9 +84,9 @@ class User < ActiveRecord::Base
     Notifier.new(self, 'Новый вопрос!', message: 'NEW_QUESTION')
   end
 
-  def push_distribution_shift
+  def push_distribution_shift(question_id)
     return unless favorite_questions_notifications
-    Notifier.new(self, 'Изменение распределения вопроса.', message: 'DISTRIBUTION_SHIFT')
+    Notifier.new(self, "Значительно изменилось распределение ответов на вопрос №#{question_id}", message: 'DISTRIBUTION_SHIFT')
   end
 
   private
