@@ -14,6 +14,7 @@ gem 'rpush'
 gem 'acts_as_list'
 gem 'nested_form_fields'
 gem 'configurable_engine'
+gem "acts-as-taggable-on"
 
 # Auth
 gem 'has_secure_token'
