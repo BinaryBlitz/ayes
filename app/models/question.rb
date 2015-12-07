@@ -170,8 +170,8 @@ class Question < ActiveRecord::Base
   end
 
   def set_age
-    self.min_age = min_age.to_i if min_age
-    self.max_age = max_age.to_i if max_age
+    self.min_age = min_age.to_i unless min_age.blank?
+    self.max_age = max_age.to_i unless max_age.blank?
     self.age = (min_age..max_age).to_a if min_age && max_age
   end
 end
