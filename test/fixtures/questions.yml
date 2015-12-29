@@ -7,7 +7,7 @@
 #  content      :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  urgent       :boolean
+#  urgent       :boolean          default(FALSE)
 #  published_at :datetime
 #  position     :integer
 #  region       :string           default("russia")
@@ -17,6 +17,7 @@
 #  education    :string           is an Array
 #  relationship :string           is an Array
 #  settlement   :string           is an Array
+#  age          :integer          default([]), is an Array
 #
 
 question:
