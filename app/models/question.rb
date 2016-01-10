@@ -65,7 +65,7 @@ class Question < ActiveRecord::Base
   acts_as_list
 
   def self.feed_for(user)
-    ids = untargeted.urgent.ids + untargeted.for_today.ids + targeted_for(user).ids
+    ids = untargeted.urgent.ids + untargeted.published.ids + targeted_for(user).ids
     where(id: ids.uniq).by_country(user.country)
   end
 
